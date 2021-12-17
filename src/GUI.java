@@ -2,26 +2,29 @@ import javax.swing.*;
 import java.awt.event.*;
 import java.awt.Font;
 import java.util.ArrayList;
+import javax.swing.border.TitledBorder;
 
 public class GUI{
     private static Database db;
     private static int currentQueryIndex;
+    private static int currentQueryType;
     private static JFrame f;
 
 
     public static void main(String[] args) {
         db = new Database();
+
         //for(int i = 0;i<9;i++) {
-            ArrayList<String[]> returnedList = db.executeQuery(14);
-        //}
-        //System.out.println(returnedList.size());
-        for(int i = 0;i<returnedList.size();i++){
-            for(int j = 0;j<returnedList.get(i).length;j++) {
-                System.out.print(returnedList.get(i)[j]);
-                System.out.print("\t");
-            }
-            System.out.println();
-        }
+//            ArrayList<String[]> returnedList = db.executeQuery(14);
+//        //}
+//        //System.out.println(returnedList.size());
+//        for(int i = 0;i<returnedList.size();i++){
+//            for(int j = 0;j<returnedList.get(i).length;j++) {
+//                System.out.print(returnedList.get(i)[j]);
+//                System.out.print("\t");
+//            }
+//            System.out.println();
+//        }
 
         f = new JFrame("University of Manitoba STEM Database (2019/2020)");//creating instance of JFrame
         // shows all the options in the drop-down menus
@@ -40,7 +43,7 @@ public class GUI{
         final JLabel welcomeLabel = new JLabel("Welcome to the University of Manitoba STEM databse");
         final JLabel ourNames = new JLabel("Made by Cody Wallbridge and Kajal Tomar");
         final JRadioButton courses = new JRadioButton("Courses");
-        final JRadioButton departments = new JRadioButton("Deparments");
+        final JRadioButton departments = new JRadioButton("Departments");
         final JRadioButton faculties = new JRadioButton("Faculties");
 
         final JLabel categories = new JLabel("Pick the category that you are curious about: ");
@@ -76,17 +79,10 @@ public class GUI{
         f.setSize(800,800);
         f.setVisible(true);
 
-        courses.addActionListener(new ActionListener() {
-            public void actionPerformed(ActionEvent e) {
-                if(courses.isSelected()){
-                    courseOptions();
-                }
-            }
-        });
-
         departments.addActionListener(new ActionListener() {
             public void actionPerformed(ActionEvent e) {
                 if(departments.isSelected()){
+                    currentQueryType = 0;
                     departmentOptions();
                 }
             }
@@ -95,10 +91,21 @@ public class GUI{
         faculties.addActionListener(new ActionListener() {
             public void actionPerformed(ActionEvent e) {
                 if(faculties.isSelected()){
+                    currentQueryType = 1;
                     facultyOptions();
                 }
             }
         });
+
+        courses.addActionListener(new ActionListener() {
+            public void actionPerformed(ActionEvent e) {
+                if(courses.isSelected()){
+                    currentQueryType = 2;
+                    courseOptions();
+                }
+            }
+        });
+
     }
 
     // ------------------------------------------------------------------------------------------
@@ -199,7 +206,7 @@ public class GUI{
                 "Which faculty has the highest average grade for international students? How do I contact them?",
                 "Which faculty has the lowest tuition for domestic students and how do I contact them? ",
                 "Which faculty has the highest average grade for domestic students? How do I contact them?",
-                "What is the total compensation awarded by X department?"};
+                "What is the total compensation awarded by X faculty?"};
 
         p.setLayout(null);
 
@@ -305,6 +312,7 @@ public class GUI{
         resultButton.addActionListener(new ActionListener() {
             public void actionPerformed(ActionEvent e) {
                 System.out.println(currentQueryIndex);
+                displayResults();
             }
         });
 
@@ -315,5 +323,61 @@ public class GUI{
         });
     }
 
+    public static void displayResults(){
+        JButton backButton = new JButton("home");
+    //    final JLabel label = new JLabel("Results");
+        JPanel p = new JPanel();
+        JScrollPane sp;
+        JTable table;
+        ArrayList<String[]> returnedList = db.executeQuery(0);
+        int rowAmount = returnedList.size();
+        int columnAmount = (returnedList.get(0)).length;
+        String[][] data = new String[rowAmount][columnAmount];
+
+        System.out.println("Rows:"+rowAmount+", Columns: "+columnAmount);
+
+        p.setLayout(new BoxLayout(p, BoxLayout.Y_AXIS));
+//        label.setHorizontalAlignment(JLabel.CENTER);
+//        label.setSize(800,200);
+//        label.setFont(new Font("Monospaced", Font.BOLD, 14));
+        backButton.setBounds(360,5,80,20);
+
+
+        String[] placeHolder = new String[columnAmount];
+
+        for(int i = 0; i < columnAmount; i++){
+            placeHolder[i] =  Integer.toString(i);
+        }
+
+        for(int i = 0; i < rowAmount; i++){
+            for(int j = 0; j < columnAmount; j++){
+                data[i][j] = returnedList.get(i)[j];
+                System.out.print(data[i][j]+", ");
+            }
+            System.out.println();
+        }
+
+       // p.setBorder(BorderFactory.createTitledBorder( BorderFactory.createEtchedBorder(), "Result", TitledBorder.CENTER, TitledBorder.TOP));
+
+        table = new JTable(data, placeHolder);
+       // table.setBounds(50, 50, 500, 500);
+        sp = new JScrollPane(table);
+      //  sp.setBounds(5, 500, 800, 800);
+
+    //    p.add(label);
+        p.add(sp);
+        p.add(backButton);
+
+
+
+        f.setContentPane(p);
+        f.setVisible(true);
+
+        backButton.addActionListener(new ActionListener() {
+            public void actionPerformed(ActionEvent e) {
+                startingPoint();
+            }
+        });
+    }
 }
 

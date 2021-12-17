@@ -14,18 +14,6 @@ public class GUI{
     public static void main(String[] args) {
         db = new Database();
 
-        //for(int i = 0;i<9;i++) {
-//            ArrayList<String[]> returnedList = db.executeQuery(14);
-//        //}
-//        //System.out.println(returnedList.size());
-//        for(int i = 0;i<returnedList.size();i++){
-//            for(int j = 0;j<returnedList.get(i).length;j++) {
-//                System.out.print(returnedList.get(i)[j]);
-//                System.out.print("\t");
-//            }
-//            System.out.println();
-//        }
-
         f = new JFrame("University of Manitoba STEM Database (2019/2020)");//creating instance of JFrame
         // shows all the options in the drop-down menus
         startingPoint();
@@ -329,7 +317,7 @@ public class GUI{
         JPanel p = new JPanel();
         JScrollPane sp;
         JTable table;
-        ArrayList<String[]> returnedList = db.executeQuery(0);
+        ArrayList<String[]> returnedList = db.executeQuery();
         int rowAmount = returnedList.size();
         int columnAmount = (returnedList.get(0)).length;
         String[][] data = new String[rowAmount][columnAmount];

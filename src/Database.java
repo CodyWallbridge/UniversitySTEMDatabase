@@ -32,54 +32,575 @@ public class Database {
         }
     }
 
-    public ArrayList<String[]> executeQuery(int queryNum) {
+    public ArrayList<String[]> executeQuery(int[] queryNum) {
         ArrayList<String[]> result = null;
-        if(queryNum == 0){
-            result = selectStarTeacher();
+        if(queryNum[0] == 0){
+            if(queryNum[1] == 0){
+                result = selectStarDepartment();
+            }
+            else if(queryNum[1] == 1){
+                result = selectStarDOffers();
+            }
+            else if(queryNum[1] == 2){
+                result = selectStardWorksIn();
+            }
+            else if(queryNum[1] == 3){
+                result = highestPaid();
+            }
+            else if(queryNum[1] == 4){
+                result = lowestPaid();
+            }
+            else if(queryNum[1] == 5){
+                result = mostProfs();
+            }
+            else if(queryNum[1] == 6){
+                result = leastProfs();
+            }
+            else if(queryNum[1] == 7){
+                result = mostComp();
+            }
+            else if(queryNum[1] == 8){
+                result = leastComp();
+            }
+            else if(queryNum[1] == 9){
+                result = mostAvg();
+            }
+            else if(queryNum[1] == 10){
+                result = totalByDep(queryNum[2]);
+            }
         }
-        else if(queryNum == 1){
-            result = selectStarFOffers();
+
+        else if ( queryNum[0] == 1){
+            if(queryNum[1] == 0){
+                result = selectStarFaculty();
+            }
+            else if(queryNum[1] == 1){
+                result = selectStarFOffers();
+            }
+            else if(queryNum[1] == 2){
+                result = selectStarfWorksIn();
+            }
+            else if(queryNum[1] == 3){
+                result = mostA();
+            }
+            else if(queryNum[1] == 4){
+                result = mostF();
+            }
+            else if(queryNum[1] == 5){
+                result = lowestTuitionInter();
+            }
+            else if(queryNum[1] == 6){
+                result = lowestTuitionDom();
+            }
+            else if(queryNum[1] == 7){
+                result = highestAvgUG();
+            }
+            else if(queryNum[1] == 8){
+                result = highestAvgG();
+            }
+            else if(queryNum[1] == 9){
+                result = facultyHighest();
+            }
         }
-        else if(queryNum == 2){
-            result = selectStarDOffers();
+
+        else if(queryNum[0] == 2){
+            if(queryNum[1] == 0){
+                result = selectStarTeacher();
+            }
+            else if(queryNum[1] == 1){
+                result = selectStarCourseOfferingInfo();
+            }
+            else if(queryNum[1] == 2){
+                result = selectStarCourseStudentInfo();
+            }
+            else if(queryNum[1] == 3){
+                result = whichCoursesOfferedInAllTerms();
+            }
+            else if(queryNum[1] == 4){
+                result = whichCoursehadMostEmpty();
+            }
+            else if(queryNum[1] == 5){
+                result = courseMostPopular(queryNum[2]);
+            }
+            else if(queryNum[1] == 6){
+                result = courseLeastPopular(queryNum[2]);
+            }
         }
-        else if(queryNum == 3){
-            result = selectStarCourseStudentInfo();
-        }
-        else if(queryNum == 4){
-            result = selectStarCourseOfferingInfo();
-        }
-        else if(queryNum == 5){
-            result = selectStarDepartment();
-        }
-        else if(queryNum == 6){
-            result = selectStarFaculty();
-        }
-        else if(queryNum == 7){
-            result = selectStardWorksIn();
-        }
-        else if(queryNum == 8){
-            result = selectStarfWorksIn();
-        }
-        else if(queryNum == 9){
-            result = whichCoursesOfferedInAllTerms();
-        }
-        else if(queryNum == 10){
-            result = whichCoursehadMostEmpty();
-        }
-        else if(queryNum == 11){
-            result = highestPaid();
-        }
-        else if(queryNum == 12){
-            result = lowestPaid();
-        }
-        else if(queryNum == 13){
-            result = mostF();
-        }
-        else if(queryNum == 14){
-            result = mostA();
+
+        return result;
+    }
+
+    public String[] getHeaders(int[] headerNum) {
+        String[] result = null;
+        if (headerNum[0] == 0) {
+            if (headerNum[1] == 0) {
+                result = new String[]{"dName", "dPhone", "dOffice", "fName"};
+            } else if (headerNum[1] == 1) {
+                result = new String[]{"CRN", "dName"};
+            } else if (headerNum[1] == 2) {
+                result = new String[]{"firstName", "lastName", "dName"};
+            } else if (headerNum[1] == 3) {
+                result = new String[]{"tTitle", "dName"};
+            } else if (headerNum[1] == 4) {
+                result = new String[]{"tTitle", "dName"};
+            } else if (headerNum[1] == 5) {
+                result = new String[]{"dName", "NumberOfInstructors"};
+            } else if (headerNum[1] == 6) {
+                result = new String[]{"dName", "NumberOfInstructors"};
+            } else if (headerNum[1] == 7) {
+                result = new String[]{"dName", "totalPaid"};
+            } else if (headerNum[1] == 8) {
+                result = new String[]{"dName", "totalPaid"};
+            } else if (headerNum[1] == 9) {
+                result = new String[]{"dName", "payPerPerson"};
+            } else if (headerNum[1] == 10) {
+                result = new String[]{"dName", "totalPaid"};
+            }
+        } else if (headerNum[0] == 1) {
+            if (headerNum[1] == 0) {
+                result = new String[]{"fName", "fullTimeEnrolled", "fOffice", "fPhone", "tuitionDomestic", "tuitionInternational", "uAveGrade", "uAmountOfGradesGiven", "uFPercentage", "uAPercentage", "gAveGrade", "gAmountOfGradesGiven", "gFPercentage", "gAPercentage"};
+            } else if (headerNum[1] == 1) {
+                result = new String[]{"CRN", "fName"};
+            } else if (headerNum[1] == 2) {
+                result = new String[]{"firstName", "lastName", "fName"};
+            } else if (headerNum[1] == 3) {
+                result = new String[]{"fName", "underGradF", "gradF"};
+            } else if (headerNum[1] == 4) {
+                result = new String[]{"fName", "underGradF", "gradF"};
+            } else if (headerNum[1] == 5) {
+                result = new String[]{"fName", "fOffice", "fPhone", "tuitionInternational"};
+            } else if (headerNum[1] == 6) {
+                result = new String[]{"fName", "fOffice", "fPhone", "tuitionDomestic"};
+            } else if (headerNum[1] == 7) {
+                result = new String[]{"fName", "fOffice", "fPhone", "uAveGrade"};
+            } else if (headerNum[1] == 8) {
+                result = new String[]{"fName", "fOffice", "fPhone", "gAveGrade"};
+            } else if (headerNum[1] == 9) {
+                result = new String[]{"fName", "TotalPaid"};
+            }
+        } else if (headerNum[0] == 2) {
+            if (headerNum[1] == 0) {
+                result = new String[]{"firstName", "lastName", "tTitle", "compensationAmount", "tPhone", "tOffice"};
+            } else if (headerNum[1] == 1) {
+                result = new String[]{"CRN", "cTitle", "section", "ID", "firstName", "lastName", "term"};
+            } else if (headerNum[1] == 2) {
+                result = new String[]{"cTitle", "ID", "section", "capacity", "waitlistCapacity", "waitlistActual", "actualRegistered", "creditHours", "subject"};
+            } else if (headerNum[1] == 3) {
+                result = new String[]{"cTitle"};
+            } else if (headerNum[1] == 4) {
+                result = new String[]{"cTitle", "emptySeats"};
+            } else if (headerNum[1] == 5) {
+                result = new String[]{"cTitle", "totalRegistered"};
+            } else if (headerNum[1] == 6) {
+                result = new String[]{"cTitle", "totalRegistered"};
+            }
         }
         return result;
+    }
+
+    private ArrayList<String[]> facultyHighest() {
+        ArrayList<String[]> resultList = null;
+        try {
+            resultList = new ArrayList<String[]>();
+            String instruction = "select fName, sum(compensationAmount) as TotalPaid from Teacher natural join dWorksIn natural join Department where fName = 'Science' group by fName";
+            Statement statemnt = this.connection.createStatement();
+            ResultSet result = statemnt.executeQuery(instruction);
+
+            while(result.next()) {
+                String[] row = new String[2];
+                row[0] = (result.getString("fName"));
+                row[1] = (result.getString("TotalPaid"));
+                resultList.add(row);
+            }
+            result.close();
+            statemnt.close();
+        } catch (SQLException var4) {
+            var4.printStackTrace(System.out);
+        }
+        return resultList;
+    }
+
+    private ArrayList<String[]> highestAvgG() {
+        ArrayList<String[]> resultList = null;
+        try {
+            resultList = new ArrayList<String[]>();
+            String instruction = "select fName,fOffice, fPhone, gAveGrade from Faculty\norder by gAveGrade desc\nlimit 1";
+            Statement statemnt = this.connection.createStatement();
+            ResultSet result = statemnt.executeQuery(instruction);
+
+            while(result.next()) {
+                String[] row = new String[4];
+                row[0] = (result.getString("fName"));
+                row[1] = (result.getString("fOffice"));
+                row[2] = (result.getString("fPhone"));
+                row[3] = (result.getString("gAveGrade"));
+                resultList.add(row);
+            }
+            result.close();
+            statemnt.close();
+        } catch (SQLException var4) {
+            var4.printStackTrace(System.out);
+        }
+        return resultList;
+    }
+
+    private ArrayList<String[]> highestAvgUG() {
+        ArrayList<String[]> resultList = null;
+        try {
+            resultList = new ArrayList<String[]>();
+            String instruction = "select fName,fOffice, fPhone, uAveGrade from Faculty\norder by uAveGrade desc\nlimit 1";
+            Statement statemnt = this.connection.createStatement();
+            ResultSet result = statemnt.executeQuery(instruction);
+
+            while(result.next()) {
+                String[] row = new String[4];
+                row[0] = (result.getString("fName"));
+                row[1] = (result.getString("fOffice"));
+                row[2] = (result.getString("fPhone"));
+                row[3] = (result.getString("uAveGrade"));
+                resultList.add(row);
+            }
+            result.close();
+            statemnt.close();
+        } catch (SQLException var4) {
+            var4.printStackTrace(System.out);
+        }
+        return resultList;
+    }
+
+    private ArrayList<String[]> lowestTuitionDom() {
+        ArrayList<String[]> resultList = null;
+        try {
+            resultList = new ArrayList<String[]>();
+            String instruction = "select fName,fOffice, fPhone, tuitionDomestic from Faculty\norder by tuitionDomestic\nlimit 1";
+            Statement statemnt = this.connection.createStatement();
+            ResultSet result = statemnt.executeQuery(instruction);
+
+            while(result.next()) {
+                String[] row = new String[4];
+                row[0] = (result.getString("fName"));
+                row[1] = (result.getString("fOffice"));
+                row[2] = (result.getString("fPhone"));
+                row[3] = (result.getString("tuitionDomestic"));
+                resultList.add(row);
+            }
+            result.close();
+            statemnt.close();
+        } catch (SQLException var4) {
+            var4.printStackTrace(System.out);
+        }
+        return resultList;
+    }
+
+    private ArrayList<String[]> lowestTuitionInter() {
+        ArrayList<String[]> resultList = null;
+        try {
+            resultList = new ArrayList<String[]>();
+            String instruction = "select fName,fOffice, fPhone, tuitionInternational from Faculty\norder by tuitionInternational\nlimit 1";
+            Statement statemnt = this.connection.createStatement();
+            ResultSet result = statemnt.executeQuery(instruction);
+
+            while(result.next()) {
+                String[] row = new String[4];
+                row[0] = (result.getString("fName"));
+                row[1] = (result.getString("fOffice"));
+                row[2] = (result.getString("fPhone"));
+                row[3] = (result.getString("tuitionInternational"));
+                resultList.add(row);
+            }
+            result.close();
+            statemnt.close();
+        } catch (SQLException var4) {
+            var4.printStackTrace(System.out);
+        }
+        return resultList;
+    }
+
+    private ArrayList<String[]> totalByDep(int dep) {
+        ArrayList<String[]> resultList = null;
+        String department;
+        if(dep == 0){
+            department = "Civil Engineering";
+        }
+        else if(dep == 1){
+            department = "Electrical and Computer Engineering";
+        }
+        else if(dep == 2){
+            department = "Engineering - Preliminary Year";
+        }
+        else if(dep == 3){
+            department = "Mechanical";
+        }
+        else if(dep == 4){
+            department = "Engineering";
+        }
+        else if(dep == 5){
+            department = "Biological Sciences";
+        }
+        else if(dep == 6){
+            department = "Chemistry";
+        }
+        else if(dep == 7){
+            department = "Computer Science";
+        }
+        else if(dep == 8){
+            department = "Mathematics";
+        }
+        else if(dep == 9){
+            department = "Microbiology";
+        }
+        else if(dep == 10){
+            department = "Physics and Astronomy";
+        }
+        else{
+            department = "Statistics";
+        }
+        try {
+            resultList = new ArrayList<String[]>();
+            String instruction = "select dName, sum(compensationAmount) as totalPaid from Teacher natural join dWorksIn where dName = '"+ department +"'\ngroup by dName\norder by totalPaid desc\n";
+            Statement statemnt = this.connection.createStatement();
+            ResultSet result = statemnt.executeQuery(instruction);
+
+            while(result.next()) {
+                String[] row = new String[2];
+                row[0] = (result.getString("dName"));
+                row[1] = (result.getString("totalPaid"));
+                resultList.add(row);
+            }
+            result.close();
+            statemnt.close();
+        } catch (SQLException var4) {
+            var4.printStackTrace(System.out);
+        }
+        return resultList;
+    }
+
+    private ArrayList<String[]> mostAvg() {
+        ArrayList<String[]> resultList = null;
+        try {
+            resultList = new ArrayList<String[]>();
+            String instruction = "select dName, sum(compensationAmount)/count(compensationAmount) as payPerPerson from Teacher natural join dWorksIn\ngroup by dName\norder by payPerPerson desc\nlimit 1\n";
+            Statement statemnt = this.connection.createStatement();
+            ResultSet result = statemnt.executeQuery(instruction);
+
+            while(result.next()) {
+                String[] row = new String[2];
+                row[0] = (result.getString("dName"));
+                row[1] = (result.getString("payPerPerson"));
+                resultList.add(row);
+            }
+            result.close();
+            statemnt.close();
+        } catch (SQLException var4) {
+            var4.printStackTrace(System.out);
+        }
+        return resultList;
+    }
+
+    private ArrayList<String[]> leastComp() {
+        ArrayList<String[]> resultList = null;
+        try {
+            resultList = new ArrayList<String[]>();
+            String instruction = "select dName, sum(compensationAmount) as totalPaid from Teacher natural join dWorksIn\ngroup by dName\norder by totalPaid\nlimit 1\n";
+            Statement statemnt = this.connection.createStatement();
+            ResultSet result = statemnt.executeQuery(instruction);
+
+            while(result.next()) {
+                String[] row = new String[2];
+                row[0] = (result.getString("dName"));
+                row[1] = (result.getString("totalPaid"));
+                resultList.add(row);
+            }
+            result.close();
+            statemnt.close();
+        } catch (SQLException var4) {
+            var4.printStackTrace(System.out);
+        }
+        return resultList;
+    }
+
+    private ArrayList<String[]> mostComp() {
+        ArrayList<String[]> resultList = null;
+        try {
+            resultList = new ArrayList<String[]>();
+            String instruction = "select dName, sum(compensationAmount) as totalPaid from Teacher natural join dWorksIn\ngroup by dName\norder by totalPaid desc\nlimit 1\n";
+            Statement statemnt = this.connection.createStatement();
+            ResultSet result = statemnt.executeQuery(instruction);
+
+            while(result.next()) {
+                String[] row = new String[2];
+                row[0] = (result.getString("dName"));
+                row[1] = (result.getString("totalPaid"));
+                resultList.add(row);
+            }
+            result.close();
+            statemnt.close();
+        } catch (SQLException var4) {
+            var4.printStackTrace(System.out);
+        }
+        return resultList;
+    }
+
+    private ArrayList<String[]> courseLeastPopular(int dep) {
+        ArrayList<String[]> resultList = null;
+        try {
+            resultList = new ArrayList<String[]>();
+            String department;
+            if(dep == 0){
+                department = "Civil Engineering";
+            }
+            else if(dep == 1){
+                department = "Electrical and Computer Engineering";
+            }
+            else if(dep == 2){
+                department = "Engineering - Preliminary Year";
+            }
+            else if(dep == 3){
+                department = "Mechanical";
+            }
+            else if(dep == 4){
+                department = "Engineering";
+            }
+            else if(dep == 5){
+                department = "Biological Sciences";
+            }
+            else if(dep == 6){
+                department = "Chemistry";
+            }
+            else if(dep == 7){
+                department = "Computer Science";
+            }
+            else if(dep == 8){
+                department = "Mathematics";
+            }
+            else if(dep == 9){
+                department = "Microbiology";
+            }
+            else if(dep == 10){
+                department = "Physics and Astronomy";
+            }
+            else{
+                department = "Statistics";
+            }
+            String instruction = "select cTitle,sum(actualRegistered) as totalRegistered from CourseStudentInfo natural join CourseOfferingInfo natural join dOffers d\nwhere dName = '" + department +"'\ngroup by cTitle\norder by totalRegistered\nlimit 1\n";
+            Statement statemnt = this.connection.createStatement();
+            ResultSet result = statemnt.executeQuery(instruction);
+
+            while(result.next()) {
+                String[] row = new String[2];
+                row[0] = (result.getString("cTitle"));
+                row[1] = (result.getString("totalRegistered"));
+                resultList.add(row);
+            }
+            result.close();
+            statemnt.close();
+        } catch (SQLException var4) {
+            var4.printStackTrace(System.out);
+        }
+        return resultList;
+    }
+
+    private ArrayList<String[]> courseMostPopular(int dep) {
+        ArrayList<String[]> resultList = null;
+        try {
+            resultList = new ArrayList<String[]>();
+            String department;
+            if(dep == 0){
+                department = "Civil Engineering";
+            }
+            else if(dep == 1){
+                department = "Electrical and Computer Engineering";
+            }
+            else if(dep == 2){
+                department = "Engineering - Preliminary Year";
+            }
+            else if(dep == 3){
+                department = "Mechanical";
+            }
+            else if(dep == 4){
+                department = "Engineering";
+            }
+            else if(dep == 5){
+                department = "Biological Sciences";
+            }
+            else if(dep == 6){
+                department = "Chemistry";
+            }
+            else if(dep == 7){
+                department = "Computer Science";
+            }
+            else if(dep == 8){
+                department = "Mathematics";
+            }
+            else if(dep == 9){
+                department = "Microbiology";
+            }
+            else if(dep == 10){
+                department = "Physics and Astronomy";
+            }
+            else{
+                department = "Statistics";
+            }
+            String instruction = "select cTitle,sum(actualRegistered) as totalRegistered from CourseStudentInfo natural join CourseOfferingInfo natural join dOffers d\nwhere dName = '" + department +"'\ngroup by cTitle\norder by totalRegistered desc\nlimit 1\n";
+            Statement statemnt = this.connection.createStatement();
+            ResultSet result = statemnt.executeQuery(instruction);
+
+            while(result.next()) {
+                String[] row = new String[2];
+                row[0] = (result.getString("cTitle"));
+                row[1] = (result.getString("totalRegistered"));
+                resultList.add(row);
+            }
+            result.close();
+            statemnt.close();
+        } catch (SQLException var4) {
+            var4.printStackTrace(System.out);
+        }
+        return resultList;
+    }
+
+    private ArrayList<String[]> leastProfs() {
+        ArrayList<String[]> resultList = null;
+        try {
+            resultList = new ArrayList<String[]>();
+            String instruction = "select dName, count(distinct firstName||lastName) as NumberOfInstructors from dWorksIn\ngroup by dName\norder by count(distinct firstName||lastName) \nlimit 1\n";
+            Statement statemnt = this.connection.createStatement();
+            ResultSet result = statemnt.executeQuery(instruction);
+
+            while(result.next()) {
+                String[] row = new String[2];
+                row[0] = (result.getString("dName"));
+                row[1] = (result.getString("NumberOfInstructors"));
+                resultList.add(row);
+            }
+            result.close();
+            statemnt.close();
+        } catch (SQLException var4) {
+            var4.printStackTrace(System.out);
+        }
+        return resultList;
+    }
+
+    private ArrayList<String[]> mostProfs() {
+        ArrayList<String[]> resultList = null;
+        try {
+            resultList = new ArrayList<String[]>();
+            String instruction = "select dName, count(distinct firstName||lastName) as NumberOfInstructors from dWorksIn\ngroup by dName\norder by count(distinct firstName||lastName) desc\nlimit 1\n";
+            Statement statemnt = this.connection.createStatement();
+            ResultSet result = statemnt.executeQuery(instruction);
+
+            while(result.next()) {
+                String[] row = new String[2];
+                row[0] = (result.getString("dName"));
+                row[1] = (result.getString("NumberOfInstructors"));
+                resultList.add(row);
+            }
+            result.close();
+            statemnt.close();
+        } catch (SQLException var4) {
+            var4.printStackTrace(System.out);
+        }
+        return resultList;
     }
 
     private ArrayList<String[]> mostA() {
@@ -90,14 +611,12 @@ public class Database {
             Statement statemnt = this.connection.createStatement();
             ResultSet result = statemnt.executeQuery(instruction);
 
-            int counter = 0;
             while(result.next()) {
                 String[] row = new String[3];
                 row[0] = (result.getString("fName"));
                 row[1] = (result.getString("underGradF"));
                 row[2] = (result.getString("gradF"));
                 resultList.add(row);
-                counter++;
             }
             result.close();
             statemnt.close();
@@ -115,14 +634,12 @@ public class Database {
             Statement statemnt = this.connection.createStatement();
             ResultSet result = statemnt.executeQuery(instruction);
 
-            int counter = 0;
             while(result.next()) {
                 String[] row = new String[3];
                 row[0] = (result.getString("fName"));
                 row[1] = (result.getString("underGradF"));
                 row[2] = (result.getString("gradF"));
                 resultList.add(row);
-                counter++;
             }
             result.close();
             statemnt.close();
@@ -140,13 +657,11 @@ public class Database {
             Statement statemnt = this.connection.createStatement();
             ResultSet result = statemnt.executeQuery(instruction);
 
-            int counter = 0;
             while(result.next()) {
                 String[] row = new String[2];
                 row[0] = (result.getString("tTitle"));
                 row[1] = (result.getString("dName"));
                 resultList.add(row);
-                counter++;
             }
             result.close();
             statemnt.close();
@@ -164,13 +679,11 @@ public class Database {
             Statement statemnt = this.connection.createStatement();
             ResultSet result = statemnt.executeQuery(instruction);
 
-            int counter = 0;
             while(result.next()) {
                 String[] row = new String[2];
                 row[0] = (result.getString("tTitle"));
                 row[1] = (result.getString("dName"));
                 resultList.add(row);
-                counter++;
             }
             result.close();
             statemnt.close();
@@ -188,13 +701,11 @@ public class Database {
             Statement statemnt = this.connection.createStatement();
             ResultSet result = statemnt.executeQuery(instruction);
 
-            int counter = 0;
             while(result.next()) {
                 String[] row = new String[2];
                 row[0] = (result.getString("cTitle"));
                 row[1] = (result.getString("emptySeats"));
                 resultList.add(row);
-                counter++;
             }
             result.close();
             statemnt.close();
@@ -227,7 +738,6 @@ public class Database {
         return resultList;
     }
 
-    //has 477, TBA still included for now
     private ArrayList<String[]> selectStarTeacher() {
         ArrayList<String[]> resultList = null;
         try {
@@ -236,7 +746,6 @@ public class Database {
             Statement statemnt = this.connection.createStatement();
             ResultSet result = statemnt.executeQuery(instruction);
 
-            int counter = 0;
             while(result.next()) {
                 String[] row = new String[6];
                 row[0] = (result.getString("firstName"));
@@ -244,9 +753,13 @@ public class Database {
                 row[2] = (result.getString("tTitle"));
                 row[3] = (result.getString("compensationAmount"));
                 row[4] = (result.getString("tPhone"));
+
                 row[5] = (result.getString("tOffice"));
+                if(row[0].equalsIgnoreCase("Abu") && row[1].equalsIgnoreCase("Hossain")){
+                    System.out.println(row[5]);
+                    result.getString("tOffice");
+                }
                 resultList.add(row);
-                counter++;
             }
             result.close();
             statemnt.close();
@@ -264,13 +777,11 @@ public class Database {
             Statement statemnt = this.connection.createStatement();
             ResultSet result = statemnt.executeQuery(instruction);
 
-            int counter = 0;
             while(result.next()) {
                 String[] row = new String[2];
                 row[0] = (result.getString("CRN"));
                 row[1] = (result.getString("fName"));
                 resultList.add(row);
-                counter++;
             }
             result.close();
             statemnt.close();
@@ -288,13 +799,11 @@ public class Database {
             Statement statemnt = this.connection.createStatement();
             ResultSet result = statemnt.executeQuery(instruction);
 
-            int counter = 0;
             while(result.next()) {
                 String[] row = new String[2];
                 row[0] = (result.getString("CRN"));
                 row[1] = (result.getString("dName"));
                 resultList.add(row);
-                counter++;
             }
             result.close();
             statemnt.close();
@@ -312,7 +821,6 @@ public class Database {
             Statement statemnt = this.connection.createStatement();
             ResultSet result = statemnt.executeQuery(instruction);
 
-            int counter = 0;
             while(result.next()) {
                 String[] row = new String[9];
                 row[0] = (result.getString("cTitle"));
@@ -325,7 +833,6 @@ public class Database {
                 row[7] = (result.getString("creditHours"));
                 row[8] = (result.getString("subject"));
                 resultList.add(row);
-                counter++;
             }
             result.close();
             statemnt.close();
@@ -343,7 +850,6 @@ public class Database {
             Statement statemnt = this.connection.createStatement();
             ResultSet result = statemnt.executeQuery(instruction);
 
-            int counter = 0;
             while(result.next()) {
                 String[] row = new String[7];
                 row[0] = (result.getString("CRN"));
@@ -354,7 +860,6 @@ public class Database {
                 row[5] = (result.getString("lastName"));
                 row[6] = (result.getString("term"));
                 resultList.add(row);
-                counter++;
             }
             result.close();
             statemnt.close();
@@ -372,7 +877,6 @@ public class Database {
             Statement statemnt = this.connection.createStatement();
             ResultSet result = statemnt.executeQuery(instruction);
 
-            int counter = 0;
             while(result.next()) {
                 String[] row = new String[4];
                 row[0] = (result.getString("dName"));
@@ -380,7 +884,6 @@ public class Database {
                 row[2] = (result.getString("dOffice"));
                 row[3] = (result.getString("fName"));
                 resultList.add(row);
-                counter++;
             }
             result.close();
             statemnt.close();
@@ -434,14 +937,12 @@ public class Database {
             Statement statemnt = this.connection.createStatement();
             ResultSet result = statemnt.executeQuery(instruction);
 
-            int counter = 0;
             while(result.next()) {
                 String[] row = new String[3];
                 row[0] = (result.getString("firstName"));
                 row[1] = (result.getString("lastName"));
                 row[2] = (result.getString("dName"));
                 resultList.add(row);
-                counter++;
             }
             result.close();
             statemnt.close();
@@ -459,14 +960,12 @@ public class Database {
             Statement statemnt = this.connection.createStatement();
             ResultSet result = statemnt.executeQuery(instruction);
 
-            int counter = 0;
             while(result.next()) {
                 String[] row = new String[3];
                 row[0] = (result.getString("firstName"));
                 row[1] = (result.getString("lastName"));
                 row[2] = (result.getString("fName"));
                 resultList.add(row);
-                counter++;
             }
             result.close();
             statemnt.close();
@@ -678,15 +1177,10 @@ public class Database {
             inFile = new BufferedReader(fileRdr);//wrap the file reader in a buffered reader
 
             for(String line = inFile.readLine(); line != null; line = inFile.readLine()) {
-                boolean hadComp = false;
+                boolean hadComp = false, hadOffice = false, hadPhone = false;
                 String[] columnValues = line.split(",");
-                //System.out.println("adding " + columnValues[0] + " " + columnValues[1]);
                 int last = 0;
                 PreparedStatement instruction = this.connection.prepareStatement("insert into Teacher (firstName, lastName, tTitle, compensationAmount, tPhone, tOffice) values (?, ?, ?, ?, ?, ?);");
-                int thing = 0;
-                if(columnValues[0].equalsIgnoreCase("Olesya")){
-                    thing++;
-                }
                 for(int i = 1;i<=columnValues.length;i++){
                     if(i == 4) {
                         if(columnValues[i-1].isEmpty() == false && Double.parseDouble(columnValues[i-1]) > 0) {
@@ -697,23 +1191,31 @@ public class Database {
                             instruction.setNull(i, REAL);
                         }
                     }
+                    else if(i == 5 && columnValues[i-1].isEmpty() == false){
+                        hadPhone = true;
+                        instruction.setString(i, columnValues[i - 1]);
+                    }
+                    else if(i == 6 && columnValues[i-1].isEmpty() == false){
+                        hadOffice = true;
+                        instruction.setString(i, columnValues[i - 1]);
+                    }
                     else {
                         instruction.setString(i, columnValues[i - 1]);
                     }
                     last = i;
                 }
 
-                for(int i = last; i<=6;i++){
+                for(int i = last+1; i<=6;i++){
                     if(i == 3){
                         instruction.setNull(i, VARCHAR);
                     }
                     if(i == 4 && !hadComp){
                         instruction.setNull(i, REAL);
                     }
-                    if(i == 5){
+                    if(i == 5 && !hadPhone){
                         instruction.setNull(i, VARCHAR);
                     }
-                    if(i == 6){
+                    if(i == 6 && !hadOffice){
                         instruction.setNull(i, VARCHAR);
                     }
                 }
@@ -793,9 +1295,9 @@ public class Database {
 
             for(String line = inFile.readLine(); line != null; line = inFile.readLine()) {
                 String[] columnValues = line.split(",");
-               // if(!columnValues[4].equalsIgnoreCase("TBA")) {
-                    this.addTeacher(columnValues[4], columnValues[5]);
-               // }
+                // if(!columnValues[4].equalsIgnoreCase("TBA")) {
+                this.addTeacher(columnValues[4], columnValues[5]);
+                // }
                 this.addCourseStudentInfo(columnValues[1], columnValues[2], Integer.parseInt(columnValues[3]));
                 PreparedStatement instruction = this.connection.prepareStatement("insert into CourseOfferingInfo  (CRN, cTitle, section, ID, firstName, lastName, term) values (?, ?, ?, ?, ?, ?, ?);");
                 instruction.setInt(1, Integer.parseInt(columnValues[0]));

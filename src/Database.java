@@ -32,66 +32,426 @@ public class Database {
         }
     }
 
-    public ArrayList<String> executeQuery(int queryNum) {
-        ArrayList<String> result = null;
-        selectStarTeacher();
+    public ArrayList<String[]> executeQuery(int queryNum) {
+        ArrayList<String[]> result = null;
+        if(queryNum == 0){
+            result = selectStarTeacher();
+        }
+        else if(queryNum == 1){
+            result = selectStarFOffers();
+        }
+        else if(queryNum == 2){
+            result = selectStarDOffers();
+        }
+        else if(queryNum == 3){
+            result = selectStarCourseStudentInfo();
+        }
+        else if(queryNum == 4){
+            result = selectStarCourseOfferingInfo();
+        }
+        else if(queryNum == 5){
+            result = selectStarDepartment();
+        }
+        else if(queryNum == 6){
+            result = selectStarFaculty();
+        }
+        else if(queryNum == 7){
+            result = selectStardWorksIn();
+        }
+        else if(queryNum == 8){
+            result = selectStarfWorksIn();
+        }
+        else if(queryNum == 9){
+            result = whichCoursesOfferedInAllTerms();
+        }
+        else if(queryNum == 10){
+            result = whichCoursehadMostEmpty();
+        }
+        else if(queryNum == 11){
+            result = highestPaid();
+        }
+        else if(queryNum == 12){
+            result = lowestPaid();
+//            result = test();
+        }
         return result;
     }
 
-    private void selectStarTeacher() {
+    private ArrayList<String[]> test() {
+        ArrayList<String[]> resultList = null;
         try {
-            String instruction = "Select * from Teacher;";
+            resultList = new ArrayList<String[]>();
+//            String instruction = "select * from Teacher where compensationAmount > 0 AND firstName = \'Olesya\'\norder by compensationAmount";//nothing comes up even though I see him in the table
+            String instruction = "select * from Teacher where compensationAmount > 0 AND firstName = \'Elif\'\norder by compensationAmount";//does work, also see him in the table
             Statement statemnt = this.connection.createStatement();
             ResultSet result = statemnt.executeQuery(instruction);
-            /*
+
+            int counter = 0;
             while(result.next()) {
-                System.out.print(result.getString("firstName"));
-                System.out.print(" " + result.getString("lastName"));
-                if(result.getString("tTitle") != null) {
-                    System.out.print(" " + result.getString("tTitle"));
-                }
-                if(result.getDouble("compensationAmount") != 0.0){
-                    System.out.print(" " + result.getDouble("compensationAmount"));
-                }
-                if(result.getString("tPhone") != null)
-                    System.out.print(" " + result.getString("tPhone"));
-                if(result.getString("tOffice") != null)
-                    System.out.print(" " + result.getString("tOffice"));
-                System.out.print("\n");
+                String[] row = new String[7];
+                row[0] = (result.getString("firstName"));
+                row[1] = (result.getString("lastName"));
+                row[2] = (result.getString("tTitle"));
+                row[3] = (result.getString("compensationAmount"));
+                row[4] = (result.getString("tPhone"));
+                row[5] = (result.getString("tOffice"));
+                //row[6] = (result.getString("dName"));
+                resultList.add(row);
+                counter++;
             }
-*/
+            result.close();
+            statemnt.close();
+    } catch (SQLException var4) {
+        var4.printStackTrace(System.out);
+    }
+        return resultList;
+    }
+
+    private ArrayList<String[]> lowestPaid() {
+        ArrayList<String[]> resultList = null;
+        try {
+            resultList = new ArrayList<String[]>();
+            String instruction = "select tTitle, dName,compensationAmount, firstName, lastName from Teacher left join dWorksIn on Teacher.firstName = dWorksIn.firstName and Teacher.lastName = dWorksIn.lastName where compensationAmount >0\n\norder by compensationAmount\n";
+            Statement statemnt = this.connection.createStatement();
+            ResultSet result = statemnt.executeQuery(instruction);
+
+            int counter = 0;
+            while(result.next()) {
+                String[] row = new String[5];
+                row[0] = (result.getString("tTitle"));
+                row[1] = (result.getString("dName"));
+                row[2] = (result.getString("compensationAmount"));
+                row[3] = (result.getString("firstName"));
+                row[4] = (result.getString("lastName"));
+                resultList.add(row);
+                counter++;
+            }
             result.close();
             statemnt.close();
         } catch (SQLException var4) {
             var4.printStackTrace(System.out);
         }
+        return resultList;
     }
-    /*
-    private ArrayList<String> selectStarFOffers() {
 
-    }
-    private ArrayList<String> selectStarDOffers() {
+    private ArrayList<String[]> highestPaid() {
+        ArrayList<String[]> resultList = null;
+        try {
+            resultList = new ArrayList<String[]>();
+            String instruction = "select tTitle, dName from Teacher natural join dWorksIn where compensationAmount >0\norder by compensationAmount desc\nlimit 3";
+            Statement statemnt = this.connection.createStatement();
+            ResultSet result = statemnt.executeQuery(instruction);
 
+            int counter = 0;
+            while(result.next()) {
+                String[] row = new String[2];
+                row[0] = (result.getString("tTitle"));
+                row[1] = (result.getString("dName"));
+                resultList.add(row);
+                counter++;
+            }
+            result.close();
+            statemnt.close();
+        } catch (SQLException var4) {
+            var4.printStackTrace(System.out);
+        }
+        return resultList;
     }
-    private ArrayList<String> selectStarCourseStudentInfo() {
 
-    }
-    private ArrayList<String> selectStarCourseOfferingInfo() {
+    private ArrayList<String[]> whichCoursehadMostEmpty() {
+        ArrayList<String[]> resultList = null;
+        try {
+            resultList = new ArrayList<String[]>();
+            String instruction = "select cTitle, sum(capacity-actualRegistered) as emptySeats from CourseStudentInfo\ngroup by cTitle\norder by emptySeats, cTitle\nlimit 1\n";
+            Statement statemnt = this.connection.createStatement();
+            ResultSet result = statemnt.executeQuery(instruction);
 
+            int counter = 0;
+            while(result.next()) {
+                String[] row = new String[2];
+                row[0] = (result.getString("cTitle"));
+                row[1] = (result.getString("emptySeats"));
+                resultList.add(row);
+                counter++;
+            }
+            result.close();
+            statemnt.close();
+        } catch (SQLException var4) {
+            var4.printStackTrace(System.out);
+        }
+        return resultList;
     }
-    private ArrayList<String> selectStarDepartment() {
 
-    }
-    private ArrayList<String> selectStarFaculty() {
+    private ArrayList<String[]> whichCoursesOfferedInAllTerms() {
+        ArrayList<String[]> resultList = null;
+        try {
+            resultList = new ArrayList<String[]>();
+            String instruction = "select cTitle\nfrom CourseOfferingInfo\ngroup by  cTitle\nhaving count(distinct term) > 2\norder by cTitle";
+            Statement statemnt = this.connection.createStatement();
+            ResultSet result = statemnt.executeQuery(instruction);
 
+            int counter = 0;
+            while(result.next()) {
+                String[] row = new String[1];
+                row[0] = (result.getString("cTitle"));
+                resultList.add(row);
+                counter++;
+            }
+            result.close();
+            statemnt.close();
+        } catch (SQLException var4) {
+            var4.printStackTrace(System.out);
+        }
+        return resultList;
     }
-    private ArrayList<String> selectStardWorksIn() {
 
-    }
-    private ArrayList<String> selectStarfWorksIn() {
+    private ArrayList<String[]> selectStarTeacher() {
+        ArrayList<String[]> resultList = null;
+        try {
+            resultList = new ArrayList<String[]>();
+            String instruction = "Select * from Teacher;";
+            Statement statemnt = this.connection.createStatement();
+            ResultSet result = statemnt.executeQuery(instruction);
 
+            int counter = 0;
+            while(result.next()) {
+                String[] row = new String[6];
+                row[0] = (result.getString("firstName"));
+                row[1] = (result.getString("lastName"));
+                row[2] = (result.getString("tTitle"));
+                row[3] = (result.getString("compensationAmount"));
+                row[4] = (result.getString("tPhone"));
+                row[5] = (result.getString("tOffice"));
+                resultList.add(row);
+                counter++;
+            }
+            result.close();
+            statemnt.close();
+        } catch (SQLException var4) {
+            var4.printStackTrace(System.out);
+        }
+        return resultList;
     }
-*/
+
+    private ArrayList<String[]> selectStarFOffers() {
+        ArrayList<String[]> resultList = null;
+        try {
+            resultList = new ArrayList<String[]>();
+            String instruction = "Select * from fOffers;";
+            Statement statemnt = this.connection.createStatement();
+            ResultSet result = statemnt.executeQuery(instruction);
+
+            int counter = 0;
+            while(result.next()) {
+                String[] row = new String[2];
+                row[0] = (result.getString("CRN"));
+                row[1] = (result.getString("fName"));
+                resultList.add(row);
+                counter++;
+            }
+            result.close();
+            statemnt.close();
+        } catch (SQLException var4) {
+            var4.printStackTrace(System.out);
+        }
+        return resultList;
+    }
+
+    private ArrayList<String[]> selectStarDOffers() {
+        ArrayList<String[]> resultList = null;
+        try {
+            resultList = new ArrayList<String[]>();
+            String instruction = "Select * from dOffers;";
+            Statement statemnt = this.connection.createStatement();
+            ResultSet result = statemnt.executeQuery(instruction);
+
+            int counter = 0;
+            while(result.next()) {
+                String[] row = new String[2];
+                row[0] = (result.getString("CRN"));
+                row[1] = (result.getString("dName"));
+                resultList.add(row);
+                counter++;
+            }
+            result.close();
+            statemnt.close();
+        } catch (SQLException var4) {
+            var4.printStackTrace(System.out);
+        }
+        return resultList;
+    }
+
+    private ArrayList<String[]> selectStarCourseStudentInfo() {
+        ArrayList<String[]> resultList = null;
+        try {
+            resultList = new ArrayList<String[]>();
+            String instruction = "Select * from CourseStudentInfo;";
+            Statement statemnt = this.connection.createStatement();
+            ResultSet result = statemnt.executeQuery(instruction);
+
+            int counter = 0;
+            while(result.next()) {
+                String[] row = new String[9];
+                row[0] = (result.getString("cTitle"));
+                row[1] = (result.getString("ID"));
+                row[2] = (result.getString("section"));
+                row[3] = (result.getString("capacity"));
+                row[4] = (result.getString("waitlistCapacity"));
+                row[5] = (result.getString("waitlistActual"));
+                row[6] = (result.getString("actualRegistered"));
+                row[7] = (result.getString("creditHours"));
+                row[8] = (result.getString("subject"));
+                resultList.add(row);
+                counter++;
+            }
+            result.close();
+            statemnt.close();
+        } catch (SQLException var4) {
+            var4.printStackTrace(System.out);
+        }
+        return resultList;
+    }
+
+    private ArrayList<String[]> selectStarCourseOfferingInfo() {
+        ArrayList<String[]> resultList = null;
+        try {
+            resultList = new ArrayList<String[]>();
+            String instruction = "Select * from CourseOfferingInfo;";
+            Statement statemnt = this.connection.createStatement();
+            ResultSet result = statemnt.executeQuery(instruction);
+
+            int counter = 0;
+            while(result.next()) {
+                String[] row = new String[6];
+                row[0] = (result.getString("firstName"));
+                row[1] = (result.getString("lastName"));
+                row[2] = (result.getString("tTitle"));
+                row[3] = (result.getString("compensationAmount"));
+                row[4] = (result.getString("tPhone"));
+                row[5] = (result.getString("tOffice"));
+                resultList.add(row);
+                counter++;
+            }
+            result.close();
+            statemnt.close();
+        } catch (SQLException var4) {
+            var4.printStackTrace(System.out);
+        }
+        return resultList;
+    }
+
+    private ArrayList<String[]> selectStarDepartment() {
+        ArrayList<String[]> resultList = null;
+        try {
+            resultList = new ArrayList<String[]>();
+            String instruction = "Select * from Department;";
+            Statement statemnt = this.connection.createStatement();
+            ResultSet result = statemnt.executeQuery(instruction);
+
+            int counter = 0;
+            while(result.next()) {
+                String[] row = new String[4];
+                row[0] = (result.getString("dName"));
+                row[1] = (result.getString("dPhone"));
+                row[2] = (result.getString("dOffice"));
+                row[3] = (result.getString("fName"));
+                resultList.add(row);
+                counter++;
+            }
+            result.close();
+            statemnt.close();
+        } catch (SQLException var4) {
+            var4.printStackTrace(System.out);
+        }
+        return resultList;
+    }
+
+    private ArrayList<String[]> selectStarFaculty() {
+        ArrayList<String[]> resultList = null;
+        try {
+            resultList = new ArrayList<String[]>();
+            String instruction = "Select * from Faculty;";
+            Statement statemnt = this.connection.createStatement();
+            ResultSet result = statemnt.executeQuery(instruction);
+
+            int counter = 0;
+            while(result.next()) {
+                String[] row = new String[14];
+                row[0] = (result.getString("fName"));
+                row[1] = (result.getString("fullTimeEnrolled"));
+                row[2] = (result.getString("fOffice"));
+                row[3] = (result.getString("fPhone"));
+                row[4] = (result.getString("tuitionDomestic"));
+                row[5] = (result.getString("tuitionInternational"));
+                row[6] = (result.getString("uAveGrade"));
+                row[7] = (result.getString("uAmountOfGradesGiven"));
+                row[8] = (result.getString("uFPercentage"));
+                row[9] = (result.getString("uAPercentage"));
+                row[10] = (result.getString("gAveGrade"));
+                row[11] = (result.getString("gAmountOfGradesGiven"));
+                row[12] = (result.getString("gFPercentage"));
+                row[13] = (result.getString("gAPercentage"));
+                resultList.add(row);
+                counter++;
+            }
+            result.close();
+            statemnt.close();
+        } catch (SQLException var4) {
+            var4.printStackTrace(System.out);
+        }
+        return resultList;
+    }
+
+    private ArrayList<String[]> selectStardWorksIn() {
+        ArrayList<String[]> resultList = null;
+        try {
+            resultList = new ArrayList<String[]>();
+            String instruction = "Select * from dWorksIn;";
+            Statement statemnt = this.connection.createStatement();
+            ResultSet result = statemnt.executeQuery(instruction);
+
+            int counter = 0;
+            while(result.next()) {
+                String[] row = new String[3];
+                row[0] = (result.getString("firstName"));
+                row[1] = (result.getString("lastName"));
+                row[2] = (result.getString("dName"));
+                resultList.add(row);
+                counter++;
+            }
+            result.close();
+            statemnt.close();
+        } catch (SQLException var4) {
+            var4.printStackTrace(System.out);
+        }
+        return resultList;
+    }
+
+    private ArrayList<String[]> selectStarfWorksIn() {
+        ArrayList<String[]> resultList = null;
+        try {
+            resultList = new ArrayList<String[]>();
+            String instruction = "Select * from fWorksIn;";
+            Statement statemnt = this.connection.createStatement();
+            ResultSet result = statemnt.executeQuery(instruction);
+
+            int counter = 0;
+            while(result.next()) {
+                String[] row = new String[3];
+                row[0] = (result.getString("firstName"));
+                row[1] = (result.getString("lastName"));
+                row[2] = (result.getString("fName"));
+                resultList.add(row);
+                counter++;
+            }
+            result.close();
+            statemnt.close();
+        } catch (SQLException var4) {
+            var4.printStackTrace(System.out);
+        }
+        return resultList;
+    }
+
     private void addTeacher(String first, String last) {
         try {
             PreparedStatement instruction = this.connection.prepareStatement("Select * From  Teacher where firstName = ? AND lastName = ?;");
@@ -295,11 +655,13 @@ public class Database {
 
             for(String line = inFile.readLine(); line != null; line = inFile.readLine()) {
                 String[] columnValues = line.split(",");
+                //System.out.println("adding " + columnValues[0] + " " + columnValues[1]);
                 int last = 0;
                 PreparedStatement instruction = this.connection.prepareStatement("insert into Teacher (firstName, lastName, tTitle, compensationAmount, tPhone, tOffice) values (?, ?, ?, ?, ?, ?);");
+                //System.out.println(columnValues[3]);
                 for(int i = 1;i<=columnValues.length;i++){
                     if(i == 4) {
-                        if(columnValues[i-1].length() > 0) {
+                        if(columnValues[i-1].isEmpty() == false && Double.parseDouble(columnValues[i-1]) > 0) {
                             instruction.setDouble(i, Double.parseDouble(columnValues[i - 1]));
                         }
                         else{
@@ -400,9 +762,9 @@ public class Database {
 
             for(String line = inFile.readLine(); line != null; line = inFile.readLine()) {
                 String[] columnValues = line.split(",");
-                if(!columnValues[4].equalsIgnoreCase("TBA")) {
+               // if(!columnValues[4].equalsIgnoreCase("TBA")) {
                     this.addTeacher(columnValues[4], columnValues[5]);
-                }
+               // }
                 this.addCourseStudentInfo(columnValues[1], columnValues[2], Integer.parseInt(columnValues[3]));
                 PreparedStatement instruction = this.connection.prepareStatement("insert into CourseOfferingInfo  (CRN, cTitle, section, ID, firstName, lastName, term) values (?, ?, ?, ?, ?, ?, ?);");
                 instruction.setInt(1, Integer.parseInt(columnValues[0]));

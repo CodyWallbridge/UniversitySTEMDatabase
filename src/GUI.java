@@ -1,6 +1,7 @@
 import javax.swing.*;
 import java.awt.event.*;
 import java.awt.Font;
+import java.util.ArrayList;
 
 public class GUI{
     private static Database db;
@@ -10,8 +11,16 @@ public class GUI{
 
     public static void main(String[] args) {
         db = new Database();
-        db.executeQuery(0);
-
+        //for(int i = 0;i<9;i++) {
+            ArrayList<String[]> returnedList = db.executeQuery(12);
+        //}
+        System.out.println(returnedList.size());
+        for(int i = 0;i<returnedList.size();i++){
+            for(int j = 0;j<returnedList.get(i).length;j++) {
+                System.out.print(returnedList.get(i)[j]);
+            }
+            System.out.println();
+        }
 
         f = new JFrame("University of Manitoba STEM Database (2019/2020)");//creating instance of JFrame
         // shows all the options in the drop-down menus

@@ -10,6 +10,7 @@ public class GUI{
 
     public static void main(String[] args) {
         db = new Database();
+        db.executeQuery(0);
 
 
         f = new JFrame("University of Manitoba STEM Database (2019/2020)");//creating instance of JFrame

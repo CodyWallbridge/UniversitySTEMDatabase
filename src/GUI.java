@@ -12,12 +12,13 @@ public class GUI{
     public static void main(String[] args) {
         db = new Database();
         //for(int i = 0;i<9;i++) {
-            ArrayList<String[]> returnedList = db.executeQuery(12);
+            ArrayList<String[]> returnedList = db.executeQuery(14);
         //}
-        System.out.println(returnedList.size());
+        //System.out.println(returnedList.size());
         for(int i = 0;i<returnedList.size();i++){
             for(int j = 0;j<returnedList.get(i).length;j++) {
                 System.out.print(returnedList.get(i)[j]);
+                System.out.print("\t");
             }
             System.out.println();
         }

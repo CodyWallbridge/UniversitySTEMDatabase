@@ -72,38 +72,63 @@ public class Database {
         }
         else if(queryNum == 12){
             result = lowestPaid();
-//            result = test();
+        }
+        else if(queryNum == 13){
+            result = mostF();
+        }
+        else if(queryNum == 14){
+            result = mostA();
         }
         return result;
     }
 
-    private ArrayList<String[]> test() {
+    private ArrayList<String[]> mostA() {
         ArrayList<String[]> resultList = null;
         try {
             resultList = new ArrayList<String[]>();
-//            String instruction = "select * from Teacher where compensationAmount > 0 AND firstName = \'Olesya\'\norder by compensationAmount";//nothing comes up even though I see him in the table
-            String instruction = "select * from Teacher where compensationAmount > 0 AND firstName = \'Elif\'\norder by compensationAmount";//does work, also see him in the table
+            String instruction = "select fName, uAmountOfGradesGiven*uAPercentage/100 as underGradF, gAmountOfGradesGiven*gAPercentage/100 as gradF\nfrom Faculty\norder by underGradF+gradF desc\nlimit 1\n";
             Statement statemnt = this.connection.createStatement();
             ResultSet result = statemnt.executeQuery(instruction);
 
             int counter = 0;
             while(result.next()) {
-                String[] row = new String[7];
-                row[0] = (result.getString("firstName"));
-                row[1] = (result.getString("lastName"));
-                row[2] = (result.getString("tTitle"));
-                row[3] = (result.getString("compensationAmount"));
-                row[4] = (result.getString("tPhone"));
-                row[5] = (result.getString("tOffice"));
-                //row[6] = (result.getString("dName"));
+                String[] row = new String[3];
+                row[0] = (result.getString("fName"));
+                row[1] = (result.getString("underGradF"));
+                row[2] = (result.getString("gradF"));
                 resultList.add(row);
                 counter++;
             }
             result.close();
             statemnt.close();
-    } catch (SQLException var4) {
-        var4.printStackTrace(System.out);
+        } catch (SQLException var4) {
+            var4.printStackTrace(System.out);
+        }
+        return resultList;
     }
+
+    private ArrayList<String[]> mostF() {
+        ArrayList<String[]> resultList = null;
+        try {
+            resultList = new ArrayList<String[]>();
+            String instruction = "select fName, uAmountOfGradesGiven*uFPercentage/100 as underGradF, gAmountOfGradesGiven*gFPercentage/100 as gradF\nfrom Faculty\norder by underGradF+gradF desc\nlimit 1\n";
+            Statement statemnt = this.connection.createStatement();
+            ResultSet result = statemnt.executeQuery(instruction);
+
+            int counter = 0;
+            while(result.next()) {
+                String[] row = new String[3];
+                row[0] = (result.getString("fName"));
+                row[1] = (result.getString("underGradF"));
+                row[2] = (result.getString("gradF"));
+                resultList.add(row);
+                counter++;
+            }
+            result.close();
+            statemnt.close();
+        } catch (SQLException var4) {
+            var4.printStackTrace(System.out);
+        }
         return resultList;
     }
 
@@ -111,18 +136,15 @@ public class Database {
         ArrayList<String[]> resultList = null;
         try {
             resultList = new ArrayList<String[]>();
-            String instruction = "select tTitle, dName,compensationAmount, firstName, lastName from Teacher left join dWorksIn on Teacher.firstName = dWorksIn.firstName and Teacher.lastName = dWorksIn.lastName where compensationAmount >0\n\norder by compensationAmount\n";
+            String instruction = "select tTitle, dName from Teacher natural join dWorksIn where compensationAmount >0\norder by compensationAmount\nlimit 3";
             Statement statemnt = this.connection.createStatement();
             ResultSet result = statemnt.executeQuery(instruction);
 
             int counter = 0;
             while(result.next()) {
-                String[] row = new String[5];
+                String[] row = new String[2];
                 row[0] = (result.getString("tTitle"));
                 row[1] = (result.getString("dName"));
-                row[2] = (result.getString("compensationAmount"));
-                row[3] = (result.getString("firstName"));
-                row[4] = (result.getString("lastName"));
                 resultList.add(row);
                 counter++;
             }
@@ -205,6 +227,7 @@ public class Database {
         return resultList;
     }
 
+    //has 477, TBA still included for now
     private ArrayList<String[]> selectStarTeacher() {
         ArrayList<String[]> resultList = null;
         try {
@@ -322,13 +345,14 @@ public class Database {
 
             int counter = 0;
             while(result.next()) {
-                String[] row = new String[6];
-                row[0] = (result.getString("firstName"));
-                row[1] = (result.getString("lastName"));
-                row[2] = (result.getString("tTitle"));
-                row[3] = (result.getString("compensationAmount"));
-                row[4] = (result.getString("tPhone"));
-                row[5] = (result.getString("tOffice"));
+                String[] row = new String[7];
+                row[0] = (result.getString("CRN"));
+                row[1] = (result.getString("cTitle"));
+                row[2] = (result.getString("section"));
+                row[3] = (result.getString("ID"));
+                row[4] = (result.getString("firstName"));
+                row[5] = (result.getString("lastName"));
+                row[6] = (result.getString("term"));
                 resultList.add(row);
                 counter++;
             }
@@ -654,15 +678,20 @@ public class Database {
             inFile = new BufferedReader(fileRdr);//wrap the file reader in a buffered reader
 
             for(String line = inFile.readLine(); line != null; line = inFile.readLine()) {
+                boolean hadComp = false;
                 String[] columnValues = line.split(",");
                 //System.out.println("adding " + columnValues[0] + " " + columnValues[1]);
                 int last = 0;
                 PreparedStatement instruction = this.connection.prepareStatement("insert into Teacher (firstName, lastName, tTitle, compensationAmount, tPhone, tOffice) values (?, ?, ?, ?, ?, ?);");
-                //System.out.println(columnValues[3]);
+                int thing = 0;
+                if(columnValues[0].equalsIgnoreCase("Olesya")){
+                    thing++;
+                }
                 for(int i = 1;i<=columnValues.length;i++){
                     if(i == 4) {
                         if(columnValues[i-1].isEmpty() == false && Double.parseDouble(columnValues[i-1]) > 0) {
                             instruction.setDouble(i, Double.parseDouble(columnValues[i - 1]));
+                            hadComp = true;
                         }
                         else{
                             instruction.setNull(i, REAL);
@@ -678,7 +707,7 @@ public class Database {
                     if(i == 3){
                         instruction.setNull(i, VARCHAR);
                     }
-                    if(i == 4){
+                    if(i == 4 && !hadComp){
                         instruction.setNull(i, REAL);
                     }
                     if(i == 5){
@@ -689,6 +718,8 @@ public class Database {
                     }
                 }
                 instruction.executeUpdate();
+                //int thing = instruction.executeUpdate();
+                //System.out.println(thing);
                 instruction.close();
             }
             inFile.close();

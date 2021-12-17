@@ -1,5 +1,5 @@
 Elif,Acar,Assistant Professor,75535.29,204 480 1820,368 Machray Hall
-Olesya,Fedoryak,INSTRUCTOR I,78895.83,,
+Olesya,Fedoryak,INSTRUCTOR I,78895.83,1234567,abcd
 Nicholas,Harland,INSTRUCTOR I,79749.05,204 474 9160,427 Machray Hall
 Carrie,Madden,INSTRUCTOR II,80123.81,204 474 6040,322 Machray Hall
 Nishant,Balakrishnan,Instructor I,80450.08,204 272 1559,E3 375 EITC E3
@@ -269,7 +269,7 @@ Annemarie,Marel,,,,
 Arkady,Major,Professor,,204 474 7541,559 EITC E3
 Avleen,Kaur,,,,
 Ayush,Yurkov,,,,
-Babak,doust Azar,,,,
+Babak,doust-Azar,,,,
 Bon,Amorim,,,,
 Bon,Lau,,,,
 Brad,Johnson,Associate Professor,,204 474 8162,375 Machray Hall

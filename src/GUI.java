@@ -1,20 +1,22 @@
 import javax.swing.*;
+import java.awt.*;
 import java.awt.event.*;
-import java.awt.Font;
 import java.util.ArrayList;
 import javax.swing.border.TitledBorder;
 
 public class GUI{
     private static Database db;
-    private static int currentQueryIndex;
-    private static int currentQueryType;
+    private static int[] currentQuery;
+   // private static int currentQueryType;
     private static JFrame f;
 
 
     public static void main(String[] args) {
         db = new Database();
+        currentQuery = new int[3];
 
         f = new JFrame("University of Manitoba STEM Database (2019/2020)");//creating instance of JFrame
+        f.setDefaultCloseOperation(JFrame.DISPOSE_ON_CLOSE);
         // shows all the options in the drop-down menus
         startingPoint();
         // departmentOptions();
@@ -28,7 +30,7 @@ public class GUI{
 //        JFrame f = new JFrame("University of Manitoba STEM Database");//creating instance of JFrame
         // Creating a panel to add buttons
         JPanel p = new JPanel();
-        final JLabel welcomeLabel = new JLabel("Welcome to the University of Manitoba STEM databse");
+        final JLabel welcomeLabel = new JLabel("Welcome to the University of Manitoba STEM database");
         final JLabel ourNames = new JLabel("Made by Cody Wallbridge and Kajal Tomar");
         final JRadioButton courses = new JRadioButton("Courses");
         final JRadioButton departments = new JRadioButton("Departments");
@@ -70,7 +72,7 @@ public class GUI{
         departments.addActionListener(new ActionListener() {
             public void actionPerformed(ActionEvent e) {
                 if(departments.isSelected()){
-                    currentQueryType = 0;
+                    currentQuery[0] = 0;
                     departmentOptions();
                 }
             }
@@ -79,7 +81,7 @@ public class GUI{
         faculties.addActionListener(new ActionListener() {
             public void actionPerformed(ActionEvent e) {
                 if(faculties.isSelected()){
-                    currentQueryType = 1;
+                    currentQuery[0] = 1;
                     facultyOptions();
                 }
             }
@@ -88,7 +90,7 @@ public class GUI{
         courses.addActionListener(new ActionListener() {
             public void actionPerformed(ActionEvent e) {
                 if(courses.isSelected()){
-                    currentQueryType = 2;
+                    currentQuery[0] = 2;
                     courseOptions();
                 }
             }
@@ -152,13 +154,20 @@ public class GUI{
 //                String data = "Current Query: "
 //                        + alloptions.getItemAt(alloptions.getSelectedIndex());
 //                currentQueryLabel.setText(data);
-                currentQueryIndex = alloptions.getSelectedIndex();
+                currentQuery[1] = alloptions.getSelectedIndex();
             }
         });
 
         resultButton.addActionListener(new ActionListener() {
             public void actionPerformed(ActionEvent e) {
-                System.out.println(currentQueryIndex);
+                System.out.println(currentQuery[1]);
+
+                if(currentQuery[1] == 10){
+                    pickDepartment();
+                }
+                else {
+                    displayResults();
+                }
             }
         });
 
@@ -224,13 +233,15 @@ public class GUI{
 //                String data = "Current Query: "
 //                        + alloptions.getItemAt(alloptions.getSelectedIndex());
 //                currentQueryLabel.setText(data);
-                currentQueryIndex = alloptions.getSelectedIndex();
+                currentQuery[1] = alloptions.getSelectedIndex();
             }
         });
 
         resultButton.addActionListener(new ActionListener() {
             public void actionPerformed(ActionEvent e) {
-                System.out.println(currentQueryIndex);
+                System.out.println(currentQuery[1]);
+                // pick department if the currentQuery[1]
+                displayResults();
             }
         });
 
@@ -293,14 +304,20 @@ public class GUI{
 //                String data = "Current Query: "
 //                        + alloptions.getItemAt(alloptions.getSelectedIndex());
 //                currentQueryLabel.setText(data);
-                currentQueryIndex = alloptions.getSelectedIndex();
+                currentQuery[1] = alloptions.getSelectedIndex();
             }
         });
 
         resultButton.addActionListener(new ActionListener() {
             public void actionPerformed(ActionEvent e) {
-                System.out.println(currentQueryIndex);
-                displayResults();
+                System.out.println(currentQuery[1]);
+
+                if(currentQuery[1] == 5 || currentQuery[1] == 6){
+                    pickDepartment();
+                }
+                else {
+                    displayResults();
+                }
             }
         });
 
@@ -311,13 +328,101 @@ public class GUI{
         });
     }
 
+
+// ------------------------------------------------------------------------------------------
+// Purpose: shows all the query options. Saves the option that is picked by the user and
+//          calls executeQuery for the given query.
+// -------------------------------------------------------------------------------------------
+    public static void pickDepartment(){
+    //        JFrame f = new JFrame("University of Manitoba STEM Database");//creating instance of JFrame
+        JButton resultButton = new JButton("select");
+        JButton backButton = new JButton("back");
+        JPanel p = new JPanel();
+        final JComboBox alloptions;
+        final JLabel welcomeLabel = new JLabel("Pick the department to show the results for: ");
+    //        final JLabel currentQueryLabel = new JLabel();
+    //
+    //        currentQueryLabel.setHorizontalAlignment(JLabel.CENTER);
+    //        currentQueryLabel.setSize(400,600);
+
+            String allDepartments[]={"Civil Engineering",
+            "Electrical and Computer Engineering",
+            "Engineering - Preliminary Year",
+            "Mechanical",
+            "Engineering",
+            "Biological Sciences",
+            "Chemistry",
+            "Computer Science",
+            "Mathematics",
+            "Microbiology",
+            "Physics and Astronomy",
+            "Statistics"};
+
+        p.setLayout(null);
+
+        welcomeLabel.setHorizontalAlignment(JLabel.CENTER);
+        welcomeLabel.setSize(800,200);
+        welcomeLabel.setFont(new Font("Monospaced", Font.BOLD, 16));
+
+        alloptions = new JComboBox(allDepartments);
+
+        alloptions.setBounds(50, 200,600,30);
+        resultButton.setBounds(655,200,100,30);
+        backButton.setBounds(360,5,80,20);
+
+        p.add(welcomeLabel);
+        p.add(alloptions);
+        //    f.add(currentQueryLabel);
+        p.add(resultButton);
+        p.add(backButton);
+
+        f.setContentPane(p);
+        f.setVisible(true);
+
+        alloptions.addActionListener(new ActionListener() {
+            public void actionPerformed(ActionEvent e) {
+    //                String data = "Current Query: "
+    //                        + alloptions.getItemAt(alloptions.getSelectedIndex());
+    //                currentQueryLabel.setText(data);
+                currentQuery[2] = alloptions.getSelectedIndex();
+            }
+        });
+
+        resultButton.addActionListener(new ActionListener() {
+            public void actionPerformed(ActionEvent e) {
+                System.out.println(currentQuery[2]);
+                displayResults();
+            }
+        });
+
+        backButton.addActionListener(new ActionListener() {
+            public void actionPerformed(ActionEvent e) {
+                if(currentQuery[0] == 0){
+                    departmentOptions();
+                }
+                else if(currentQuery[0] == 1){
+                    facultyOptions();
+                }
+                else if(currentQuery[0] == 2){
+                    courseOptions();
+                }
+                else {
+                    startingPoint();
+                }
+            }
+        });
+    }
+
     public static void displayResults(){
         JButton backButton = new JButton("home");
+        final JLabel label = new JLabel("RESULTS");
     //    final JLabel label = new JLabel("Results");
         JPanel p = new JPanel();
         JScrollPane sp;
         JTable table;
-        ArrayList<String[]> returnedList = db.executeQuery();
+        ArrayList<String[]> returnedList = db.executeQuery(currentQuery);
+        String[] headers = db.getHeaders(currentQuery);
+
         int rowAmount = returnedList.size();
         int columnAmount = (returnedList.get(0)).length;
         String[][] data = new String[rowAmount][columnAmount];
@@ -325,36 +430,39 @@ public class GUI{
         System.out.println("Rows:"+rowAmount+", Columns: "+columnAmount);
 
         p.setLayout(new BoxLayout(p, BoxLayout.Y_AXIS));
+
 //        label.setHorizontalAlignment(JLabel.CENTER);
 //        label.setSize(800,200);
 //        label.setFont(new Font("Monospaced", Font.BOLD, 14));
-        backButton.setBounds(360,5,80,20);
-
-
-        String[] placeHolder = new String[columnAmount];
-
-        for(int i = 0; i < columnAmount; i++){
-            placeHolder[i] =  Integer.toString(i);
-        }
+        backButton.setBounds(0,5,800,16);
 
         for(int i = 0; i < rowAmount; i++){
             for(int j = 0; j < columnAmount; j++){
                 data[i][j] = returnedList.get(i)[j];
-                System.out.print(data[i][j]+", ");
+               // System.out.print(data[i][j]+", ");
             }
-            System.out.println();
+          //  System.out.println();
         }
 
-       // p.setBorder(BorderFactory.createTitledBorder( BorderFactory.createEtchedBorder(), "Result", TitledBorder.CENTER, TitledBorder.TOP));
+       p.setBorder(BorderFactory.createTitledBorder( BorderFactory.createEtchedBorder(), "UofM STEM Database", TitledBorder.CENTER, TitledBorder.TOP));
 
-        table = new JTable(data, placeHolder);
+        table = new JTable(data, headers);
        // table.setBounds(50, 50, 500, 500);
         sp = new JScrollPane(table);
       //  sp.setBounds(5, 500, 800, 800);
 
+        backButton.setAlignmentX(Component.CENTER_ALIGNMENT);
+
+        label.setAlignmentX(JLabel.CENTER_ALIGNMENT);
+        label.setFont(new Font("Monospaced", Font.BOLD, 20));
+
     //    p.add(label);
-        p.add(sp);
+        p.add(Box.createRigidArea(new Dimension(0,3)));
         p.add(backButton);
+        p.add(Box.createRigidArea(new Dimension(0,10)));
+        p.add(label);
+        p.add(Box.createRigidArea(new Dimension(0,5)));
+        p.add(sp);
 
 
 

@@ -72,6 +72,7 @@ public class Database {
 
         else if ( queryNum[0] == 1){
             if(queryNum[1] == 0){
+                System.out.println("here");
                 result = selectStarFaculty();
             }
             else if(queryNum[1] == 1){
@@ -134,65 +135,65 @@ public class Database {
         String[] result = null;
         if (headerNum[0] == 0) {
             if (headerNum[1] == 0) {
-                result = new String[]{"dName", "dPhone", "dOffice", "fName"};
+                result = new String[]{"Department", "Phone Number", "Office", "Part of Faculty"};
             } else if (headerNum[1] == 1) {
-                result = new String[]{"CRN", "dName"};
+                result = new String[]{"CRN", "Department"};
             } else if (headerNum[1] == 2) {
-                result = new String[]{"firstName", "lastName", "dName"};
+                result = new String[]{"First Name", "Last Name", "Department"};
             } else if (headerNum[1] == 3) {
-                result = new String[]{"tTitle", "dName"};
+                result = new String[]{"Title", "Department"};
             } else if (headerNum[1] == 4) {
-                result = new String[]{"tTitle", "dName"};
+                result = new String[]{"Title", "Department"};
             } else if (headerNum[1] == 5) {
-                result = new String[]{"dName", "NumberOfInstructors"};
+                result = new String[]{"Department", "Number Of Instructors"};
             } else if (headerNum[1] == 6) {
-                result = new String[]{"dName", "NumberOfInstructors"};
+                result = new String[]{"Department", "Number Of Instructors"};
             } else if (headerNum[1] == 7) {
-                result = new String[]{"dName", "totalPaid"};
+                result = new String[]{"Department", "Total Paid"};
             } else if (headerNum[1] == 8) {
-                result = new String[]{"dName", "totalPaid"};
+                result = new String[]{"Department", "Total Paid"};
             } else if (headerNum[1] == 9) {
-                result = new String[]{"dName", "payPerPerson"};
+                result = new String[]{"Department", "Average Pay"};
             } else if (headerNum[1] == 10) {
-                result = new String[]{"dName", "totalPaid"};
+                result = new String[]{"Department", "Total Paid"};
             }
         } else if (headerNum[0] == 1) {
             if (headerNum[1] == 0) {
-                result = new String[]{"fName", "fullTimeEnrolled", "fOffice", "fPhone", "tuitionDomestic", "tuitionInternational", "uAveGrade", "uAmountOfGradesGiven", "uFPercentage", "uAPercentage", "gAveGrade", "gAmountOfGradesGiven", "gFPercentage", "gAPercentage"};
+                result = new String[]{"Faculty", "Number of Full-time Students Enrolled", "Office", "Phone Number", "Domestic Student Tuition", "International Student Tuition", "Average Grade for Undergrad Students", "Number of Grades Given to Undergrad Students", "Percentage of F's for Undergrad Students", "Percentage of A's for Undergrad Students", "Average Grade for Graduate Students", "Number of Grades Given to Graduate Students", "Percentage of F's for Graduate Students", "Percentage of A's for Graduate Students"};
             } else if (headerNum[1] == 1) {
-                result = new String[]{"CRN", "fName"};
+                result = new String[]{"CRN", "Faculty"};
             } else if (headerNum[1] == 2) {
-                result = new String[]{"firstName", "lastName", "fName"};
+                result = new String[]{"First Name", "Last Name", "Faculty"};
             } else if (headerNum[1] == 3) {
-                result = new String[]{"fName", "underGradF", "gradF"};
+                result = new String[]{"Faculty", "Number of F's for Undergrad Students", "Number of F's for Graduate Students"};
             } else if (headerNum[1] == 4) {
-                result = new String[]{"fName", "underGradF", "gradF"};
+                result = new String[]{"Faculty", "Number of F's for Undergrad Students", "Number of F's for Graduate Students"};
             } else if (headerNum[1] == 5) {
-                result = new String[]{"fName", "fOffice", "fPhone", "tuitionInternational"};
+                result = new String[]{"Faculty", "Office", "Phone Number", "International Student Tuition"};
             } else if (headerNum[1] == 6) {
-                result = new String[]{"fName", "fOffice", "fPhone", "tuitionDomestic"};
+                result = new String[]{"Faculty", "Office", "Phone Number", "Domestic Student Tuition"};
             } else if (headerNum[1] == 7) {
-                result = new String[]{"fName", "fOffice", "fPhone", "uAveGrade"};
+                result = new String[]{"Faculty", "Office", "Phone Number", "Average Grade for Undergrad Students"};
             } else if (headerNum[1] == 8) {
-                result = new String[]{"fName", "fOffice", "fPhone", "gAveGrade"};
+                result = new String[]{"Faculty", "Office", "Phone Number", "Average Grade for Graduate Students"};
             } else if (headerNum[1] == 9) {
-                result = new String[]{"fName", "TotalPaid"};
+                result = new String[]{"Faculty", "Total Paid"};
             }
         } else if (headerNum[0] == 2) {
             if (headerNum[1] == 0) {
-                result = new String[]{"firstName", "lastName", "tTitle", "compensationAmount", "tPhone", "tOffice"};
+                result = new String[]{"First Name", "Last Name", "Course Name", "Compensation Amount", "Phone Number", "Office"};
             } else if (headerNum[1] == 1) {
-                result = new String[]{"CRN", "cTitle", "section", "ID", "firstName", "lastName", "term"};
+                result = new String[]{"CRN", "Course Name", "section", "ID", "First Name", "Last Name", "Term of Offering"};
             } else if (headerNum[1] == 2) {
-                result = new String[]{"cTitle", "ID", "section", "capacity", "waitlistCapacity", "waitlistActual", "actualRegistered", "creditHours", "subject"};
+                result = new String[]{"Course Name", "ID", "section", "capacity", "Waitlist Capacity", "Waitlist Actual", "Number of Students Actually Registered", "Credit Hours", "Subject Code"};
             } else if (headerNum[1] == 3) {
-                result = new String[]{"cTitle"};
+                result = new String[]{"Course Name"};
             } else if (headerNum[1] == 4) {
-                result = new String[]{"cTitle", "emptySeats"};
+                result = new String[]{"Course Name", "Number of Empty Seats"};
             } else if (headerNum[1] == 5) {
-                result = new String[]{"cTitle", "totalRegistered"};
+                result = new String[]{"Course Name", "Number of Students Registered"};
             } else if (headerNum[1] == 6) {
-                result = new String[]{"cTitle", "totalRegistered"};
+                result = new String[]{"Course Name", "Number of Students Registered"};
             }
         }
         return result;
@@ -755,10 +756,6 @@ public class Database {
                 row[4] = (result.getString("tPhone"));
 
                 row[5] = (result.getString("tOffice"));
-                if(row[0].equalsIgnoreCase("Abu") && row[1].equalsIgnoreCase("Hossain")){
-                    System.out.println(row[5]);
-                    result.getString("tOffice");
-                }
                 resultList.add(row);
             }
             result.close();
@@ -1220,8 +1217,6 @@ public class Database {
                     }
                 }
                 instruction.executeUpdate();
-                //int thing = instruction.executeUpdate();
-                //System.out.println(thing);
                 instruction.close();
             }
             inFile.close();

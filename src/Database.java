@@ -3,6 +3,7 @@
 
 import java.io.BufferedReader;
 import java.io.FileReader;
+import java.io.FileWriter;
 import java.io.IOException;
 import java.sql.Connection;
 import java.sql.DriverManager;
@@ -29,6 +30,34 @@ public class Database {
             var2.printStackTrace(System.out);
         } catch (SQLException var3) {
             var3.printStackTrace(System.out);
+        }
+    }
+
+    public void printOutputCSV(String[] headers, ArrayList<String[]> finalTable, String outputFileName){
+        try{
+            FileWriter myWriter = new FileWriter(outputFileName);
+            for(int i = 0;i<headers.length;i++){
+                if(i>0){
+                    myWriter.write(",");
+                }
+                myWriter.write(headers[i]);
+            }
+            myWriter.write("\n");
+            for (String[] stringArray : finalTable) {
+                int count = 0;
+                for (String string : stringArray) {
+                    if(count > 0){
+                        myWriter.write(",");
+                    }
+                    myWriter.write(string);
+                    count++;
+                }
+                myWriter.write("\n");
+            }
+            myWriter.close();
+        }
+        catch (IOException e) {
+            System.out.println("An error occurred.");
         }
     }
 

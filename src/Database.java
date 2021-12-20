@@ -38,6 +38,7 @@ public class Database {
         }
     }
 
+    //handles the creation of the output file. file will be named based on the parameter, have the headers and contents based on the other parameters
     public void printOutputCSV(String[] headers, ArrayList<String[]> finalTable, String outputFileName){
         try{
             FileWriter myWriter = new FileWriter(outputFileName);
@@ -71,6 +72,8 @@ public class Database {
         }
     }
 
+    //executes the query by calling the correct method based on the parameter passed
+    //passes back an arraylist of string arrays where each string array is a row from the output
     public ArrayList<String[]> executeQuery(int[] queryNum) {
         ArrayList<String[]> result = null;
         if(queryNum[0] == 0){
@@ -169,6 +172,7 @@ public class Database {
         return result;
     }
 
+    //returns a string array where each index is the header for a column. the parameter determines what the headers are
     public String[] getHeaders(int[] headerNum) {
         String[] result = null;
         if (headerNum[0] == 0) {
@@ -203,7 +207,7 @@ public class Database {
             } else if (headerNum[1] == 2) {
                 result = new String[]{"First Name", "Last Name", "Faculty"};
             } else if (headerNum[1] == 3) {
-                result = new String[]{"Faculty", "Number of F's for Undergrad Students", "Number of F's for Graduate Students"};
+                result = new String[]{"Faculty", "Number of A's for Undergrad Students", "Number of A's for Graduate Students"};
             } else if (headerNum[1] == 4) {
                 result = new String[]{"Faculty", "Number of F's for Undergrad Students", "Number of F's for Graduate Students"};
             } else if (headerNum[1] == 5) {
@@ -237,6 +241,7 @@ public class Database {
         return result;
     }
 
+    //checks and returns which faculty paid the most in compensation
     private ArrayList<String[]> facultyHighest(int fac) {
         ArrayList<String[]> resultList = null;
         String faculty;
@@ -271,6 +276,7 @@ public class Database {
         return resultList;
     }
 
+    //checks and returns which faculty had the highest average grade for graduate students
     private ArrayList<String[]> highestAvgG() {
         ArrayList<String[]> resultList = null;
         try {
@@ -300,6 +306,7 @@ public class Database {
         return resultList;
     }
 
+    //checks and returns which faculty had the highest average grade for undergrad students
     private ArrayList<String[]> highestAvgUG() {
         ArrayList<String[]> resultList = null;
         try {
@@ -329,6 +336,7 @@ public class Database {
         return resultList;
     }
 
+    //checks and returns which faculty had the lowest tuition for domestic students
     private ArrayList<String[]> lowestTuitionDom() {
         ArrayList<String[]> resultList = null;
         try {
@@ -353,6 +361,7 @@ public class Database {
         return resultList;
     }
 
+    //checks and returns which faculty had the lowest tuition for international students
     private ArrayList<String[]> lowestTuitionInter() {
         ArrayList<String[]> resultList = null;
         try {
@@ -377,6 +386,7 @@ public class Database {
         return resultList;
     }
 
+    //checks and returns how much the department paid in compensation. department is passed as a parameter
     private ArrayList<String[]> totalByDep(int dep) {
         ArrayList<String[]> resultList = null;
         String department;
@@ -438,6 +448,7 @@ public class Database {
         return resultList;
     }
 
+    //checks and returns which department paid the most compensation on average (totalComp/numberOfInstructors
     private ArrayList<String[]> mostAvg() {
         ArrayList<String[]> resultList = null;
         try {
@@ -465,6 +476,7 @@ public class Database {
         return resultList;
     }
 
+    //checks and returns which department paid the least in compensation
     private ArrayList<String[]> leastComp() {
         ArrayList<String[]> resultList = null;
         try {
@@ -492,6 +504,7 @@ public class Database {
         return resultList;
     }
 
+    //checks and returns which department paid the most in compensation
     private ArrayList<String[]> mostComp() {
         ArrayList<String[]> resultList = null;
         try {
@@ -519,6 +532,7 @@ public class Database {
         return resultList;
     }
 
+    //checks and returns which course had the least students registered in it within the department which is the parameter
     private ArrayList<String[]> courseLeastPopular(int dep) {
         ArrayList<String[]> resultList = null;
         try {
@@ -575,6 +589,7 @@ public class Database {
         return resultList;
     }
 
+    //checks and returns which course had the most students registered in it within the department which is the parameter
     private ArrayList<String[]> courseMostPopular(int dep) {
         ArrayList<String[]> resultList = null;
         try {
@@ -631,6 +646,7 @@ public class Database {
         return resultList;
     }
 
+    //checks and returns which department had the least faculty members
     private ArrayList<String[]> leastProfs() {
         ArrayList<String[]> resultList = null;
         try {
@@ -653,6 +669,7 @@ public class Database {
         return resultList;
     }
 
+    //checks and returns which department had the most faculty members
     private ArrayList<String[]> mostProfs() {
         ArrayList<String[]> resultList = null;
         try {
@@ -675,6 +692,7 @@ public class Database {
         return resultList;
     }
 
+    //checks nad returns which faculty gave the most A grades
     private ArrayList<String[]> mostA() {
         ArrayList<String[]> resultList = null;
         try {
@@ -688,7 +706,7 @@ public class Database {
                 row[0] = (result.getString("fName"));
 
                 double d = result.getDouble("underGradF");
-                String pattern = "#.##";
+                String pattern = "#";
                 DecimalFormat decimalFormat =  new DecimalFormat(pattern);
                 String formattedDouble = decimalFormat.format(d);
                 row[1] = formattedDouble;
@@ -706,6 +724,7 @@ public class Database {
         return resultList;
     }
 
+    //checks and returns which faculty gave the most F grades
     private ArrayList<String[]> mostF() {
         ArrayList<String[]> resultList = null;
         try {
@@ -719,7 +738,7 @@ public class Database {
                 row[0] = (result.getString("fName"));
 
                 double d = result.getDouble("underGradF");
-                String pattern = "#.##";
+                String pattern = "#";
                 DecimalFormat decimalFormat =  new DecimalFormat(pattern);
                 String formattedDouble = decimalFormat.format(d);
                 row[1] = formattedDouble;
@@ -737,6 +756,8 @@ public class Database {
         return resultList;
     }
 
+
+    //checks and returns the 3 lowest paid professors from the entire database. only prints the persons title and department
     private ArrayList<String[]> lowestPaid() {
         ArrayList<String[]> resultList = null;
         try {
@@ -759,6 +780,7 @@ public class Database {
         return resultList;
     }
 
+    //checks and returns the 3 highest paid professors from the entire database. only prints the persons title and department
     private ArrayList<String[]> highestPaid() {
         ArrayList<String[]> resultList = null;
         try {
@@ -781,6 +803,7 @@ public class Database {
         return resultList;
     }
 
+    //checks and returns which course had the most empty seats throughout the entire year
     private ArrayList<String[]> whichCoursehadMostEmpty() {
         ArrayList<String[]> resultList = null;
         try {
@@ -803,6 +826,7 @@ public class Database {
         return resultList;
     }
 
+    //checks and returns which courses were offered in each of the 3 terms (fall, winter, summer)
     private ArrayList<String[]> whichCoursesOfferedInAllTerms() {
         ArrayList<String[]> resultList = null;
         try {
@@ -1083,6 +1107,7 @@ public class Database {
         return resultList;
     }
 
+    //adds a row to teacher if its not already in the db
     private void addTeacher(String first, String last) {
         try {
             PreparedStatement instruction = this.connection.prepareStatement("Select * From  Teacher where firstName = ? AND lastName = ?;");
@@ -1108,6 +1133,7 @@ public class Database {
         }
     }
 
+    //adds a row to courseStudentInfo if its not already in the db
     private void addCourseStudentInfo(String title, String section, int id){
         try {
             PreparedStatement instruction = this.connection.prepareStatement("Select * From  CourseStudentInfo where cTitle = ? AND ID = ? AND section = ?;");
@@ -1133,6 +1159,7 @@ public class Database {
         }
     }
 
+    //adds a courseOfferingInfo row if its not already in the db
     private void addCourseOfferingInfo(int crn){
         try {
             PreparedStatement instruction = this.connection.prepareStatement("Select * From  CourseOfferingInfo where CRN = ?;");
@@ -1153,6 +1180,7 @@ public class Database {
         }
     }
 
+    //adds a faculty if its not already in the db
     private void addFaculty(String name){
         try {
             PreparedStatement instruction = this.connection.prepareStatement("Select * From Faculty where fName = ?;");
@@ -1173,6 +1201,7 @@ public class Database {
         }
     }
 
+    //adds a department if its not already in the db
     private void addDepartment(String name){
         try {
             PreparedStatement instruction = this.connection.prepareStatement("Select * From  Department where dName = ?;");
@@ -1193,6 +1222,7 @@ public class Database {
         }
     }
 
+    //creates all the needed tables for the db
     private void createTables() {
         String ddl1 = "create table Faculty ( fName varchar(15), fullTimeEnrolled integer, fOffice varchar(75), fPhone varchar(12), tuitionDomestic integer, tuitionInternational integer, uAveGrade real, uAmountOfGradesGiven integer, uFPercentage real, uAPercentage real, gAveGrade real, gAmountOfGradesGiven integer, gFPercentage real, gAPercentage real, primary key (fName) );";
 
@@ -1228,6 +1258,7 @@ public class Database {
         }
     }
 
+    //reads in all the data from the csv files needed
     private void readInData() {
         FileReader fileRdr;
         BufferedReader inFile;

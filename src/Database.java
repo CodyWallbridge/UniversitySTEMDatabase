@@ -106,7 +106,6 @@ public class Database {
 
         else if ( queryNum[0] == 1){
             if(queryNum[1] == 0){
-                System.out.println("here");
                 result = selectStarFaculty();
             }
             else if(queryNum[1] == 1){

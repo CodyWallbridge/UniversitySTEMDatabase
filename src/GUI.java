@@ -269,7 +269,7 @@ public class GUI{
 //        currentQueryLabel.setSize(400,600);
 
         String allQueries[]={"Show all the teachers and related information.",
-                "Show all the available courses offered in. ",
+                "Show all the available courses offered in 2019. ",
                 "Show all the registration information about all of the courses offered. ",
                 "Which courses are offered in all 3 terms?",
                 "Which course had the most empty seats for the year?",

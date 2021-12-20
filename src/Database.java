@@ -11,6 +11,7 @@ import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.sql.Statement;
+import java.text.DecimalFormat;
 import java.util.ArrayList;
 
 import static java.sql.Types.REAL;
@@ -129,7 +130,7 @@ public class Database {
                 result = highestAvgG();
             }
             else if(queryNum[1] == 9){
-                result = facultyHighest();
+                result = facultyHighest(queryNum[2]);
             }
         }
 
@@ -228,18 +229,30 @@ public class Database {
         return result;
     }
 
-    private ArrayList<String[]> facultyHighest() {
+    private ArrayList<String[]> facultyHighest(int fac) {
         ArrayList<String[]> resultList = null;
+        String faculty;
+        if(fac == 0){
+            faculty = "Engineering";
+        }
+        else{
+            faculty = "Science";
+        }
         try {
             resultList = new ArrayList<String[]>();
-            String instruction = "select fName, sum(compensationAmount) as TotalPaid from Teacher natural join dWorksIn natural join Department where fName = 'Science' group by fName";
+            String instruction = "select fName, sum(compensationAmount) as TotalPaid from Teacher natural join dWorksIn natural join Department where fName = '"+ faculty +"' group by fName";
             Statement statemnt = this.connection.createStatement();
             ResultSet result = statemnt.executeQuery(instruction);
 
             while(result.next()) {
                 String[] row = new String[2];
                 row[0] = (result.getString("fName"));
-                row[1] = (result.getString("TotalPaid"));
+
+                double d = result.getDouble("TotalPaid");
+                String pattern = "#.##";
+                DecimalFormat decimalFormat =  new DecimalFormat(pattern);
+                String formattedDouble = decimalFormat.format(d);
+                row[1] = formattedDouble;
                 resultList.add(row);
             }
             result.close();
@@ -263,7 +276,12 @@ public class Database {
                 row[0] = (result.getString("fName"));
                 row[1] = (result.getString("fOffice"));
                 row[2] = (result.getString("fPhone"));
-                row[3] = (result.getString("gAveGrade"));
+
+                double d = result.getDouble("gAveGrade");
+                String pattern = "#.##";
+                DecimalFormat decimalFormat =  new DecimalFormat(pattern);
+                String formattedDouble = decimalFormat.format(d);
+                row[3] = formattedDouble;
                 resultList.add(row);
             }
             result.close();
@@ -287,7 +305,12 @@ public class Database {
                 row[0] = (result.getString("fName"));
                 row[1] = (result.getString("fOffice"));
                 row[2] = (result.getString("fPhone"));
-                row[3] = (result.getString("uAveGrade"));
+
+                double d = result.getDouble("uAveGrade");
+                String pattern = "#.##";
+                DecimalFormat decimalFormat =  new DecimalFormat(pattern);
+                String formattedDouble = decimalFormat.format(d);
+                row[3] = formattedDouble;
                 resultList.add(row);
             }
             result.close();
@@ -394,7 +417,12 @@ public class Database {
             while(result.next()) {
                 String[] row = new String[2];
                 row[0] = (result.getString("dName"));
-                row[1] = (result.getString("totalPaid"));
+
+                double d = result.getDouble("totalPaid");
+                String pattern = "#.##";
+                DecimalFormat decimalFormat =  new DecimalFormat(pattern);
+                String formattedDouble = decimalFormat.format(d);
+                row[1] = formattedDouble;
                 resultList.add(row);
             }
             result.close();
@@ -416,7 +444,12 @@ public class Database {
             while(result.next()) {
                 String[] row = new String[2];
                 row[0] = (result.getString("dName"));
-                row[1] = (result.getString("payPerPerson"));
+
+                double d = result.getDouble("payPerPerson");
+                String pattern = "#.##";
+                DecimalFormat decimalFormat =  new DecimalFormat(pattern);
+                String formattedDouble = decimalFormat.format(d);
+                row[1] = formattedDouble;
                 resultList.add(row);
             }
             result.close();
@@ -438,7 +471,12 @@ public class Database {
             while(result.next()) {
                 String[] row = new String[2];
                 row[0] = (result.getString("dName"));
-                row[1] = (result.getString("totalPaid"));
+
+                double d = result.getDouble("totalPaid");
+                String pattern = "#.##";
+                DecimalFormat decimalFormat =  new DecimalFormat(pattern);
+                String formattedDouble = decimalFormat.format(d);
+                row[1] = formattedDouble;
                 resultList.add(row);
             }
             result.close();
@@ -460,7 +498,12 @@ public class Database {
             while(result.next()) {
                 String[] row = new String[2];
                 row[0] = (result.getString("dName"));
-                row[1] = (result.getString("totalPaid"));
+
+                double d = result.getDouble("totalPaid");
+                String pattern = "#.##";
+                DecimalFormat decimalFormat =  new DecimalFormat(pattern);
+                String formattedDouble = decimalFormat.format(d);
+                row[1] = formattedDouble;
                 resultList.add(row);
             }
             result.close();
@@ -644,8 +687,16 @@ public class Database {
             while(result.next()) {
                 String[] row = new String[3];
                 row[0] = (result.getString("fName"));
-                row[1] = (result.getString("underGradF"));
-                row[2] = (result.getString("gradF"));
+
+                double d = result.getDouble("underGradF");
+                String pattern = "#.##";
+                DecimalFormat decimalFormat =  new DecimalFormat(pattern);
+                String formattedDouble = decimalFormat.format(d);
+                row[1] = formattedDouble;
+
+                d = result.getDouble("gradF");
+                formattedDouble = decimalFormat.format(d);
+                row[2] = formattedDouble;
                 resultList.add(row);
             }
             result.close();
@@ -667,8 +718,16 @@ public class Database {
             while(result.next()) {
                 String[] row = new String[3];
                 row[0] = (result.getString("fName"));
-                row[1] = (result.getString("underGradF"));
-                row[2] = (result.getString("gradF"));
+
+                double d = result.getDouble("underGradF");
+                String pattern = "#.##";
+                DecimalFormat decimalFormat =  new DecimalFormat(pattern);
+                String formattedDouble = decimalFormat.format(d);
+                row[1] = formattedDouble;
+
+                d = result.getDouble("gradF");
+                formattedDouble = decimalFormat.format(d);
+                row[2] = formattedDouble;
                 resultList.add(row);
             }
             result.close();
@@ -781,7 +840,12 @@ public class Database {
                 row[0] = (result.getString("firstName"));
                 row[1] = (result.getString("lastName"));
                 row[2] = (result.getString("tTitle"));
-                row[3] = (result.getString("compensationAmount"));
+
+                double d = result.getDouble("compensationAmount");
+                String pattern = "#.##";
+                DecimalFormat decimalFormat =  new DecimalFormat(pattern);
+                String formattedDouble = decimalFormat.format(d);
+                row[3] = formattedDouble;
                 row[4] = (result.getString("tPhone"));
 
                 row[5] = (result.getString("tOffice"));
@@ -927,7 +991,6 @@ public class Database {
             Statement statemnt = this.connection.createStatement();
             ResultSet result = statemnt.executeQuery(instruction);
 
-            int counter = 0;
             while(result.next()) {
                 String[] row = new String[14];
                 row[0] = (result.getString("fName"));
@@ -936,16 +999,36 @@ public class Database {
                 row[3] = (result.getString("fPhone"));
                 row[4] = (result.getString("tuitionDomestic"));
                 row[5] = (result.getString("tuitionInternational"));
-                row[6] = (result.getString("uAveGrade"));
+
+                double d = result.getDouble("uAveGrade");
+                String pattern = "#.##";
+                DecimalFormat decimalFormat =  new DecimalFormat(pattern);
+                String formattedDouble = decimalFormat.format(d);
+                row[6] = formattedDouble;
+
                 row[7] = (result.getString("uAmountOfGradesGiven"));
-                row[8] = (result.getString("uFPercentage"));
-                row[9] = (result.getString("uAPercentage"));
-                row[10] = (result.getString("gAveGrade"));
+
+                d = result.getDouble("uFPercentage");
+                formattedDouble = decimalFormat.format(d);
+                row[8] = formattedDouble;
+
+                d = result.getDouble("uAPercentage");
+                formattedDouble = decimalFormat.format(d);
+                row[9] = formattedDouble;
+
+                d = result.getDouble("gAveGrade");
+                formattedDouble = decimalFormat.format(d);
+                row[10] = formattedDouble;
                 row[11] = (result.getString("gAmountOfGradesGiven"));
-                row[12] = (result.getString("gFPercentage"));
-                row[13] = (result.getString("gAPercentage"));
+
+                d = result.getDouble("gFPercentage");
+                formattedDouble = decimalFormat.format(d);
+                row[12] = formattedDouble;
+
+                d = result.getDouble("gAPercentage");
+                formattedDouble = decimalFormat.format(d);
+                row[13] = formattedDouble;
                 resultList.add(row);
-                counter++;
             }
             result.close();
             statemnt.close();

@@ -1,8 +1,19 @@
+//------------------------------------------------------------------------------
+// NAMES: Cody Wallbridge, Kajal Tomar
+// COURSE: COMP3380, SECTION: A02
+// INSTRUCTOR: Adam Pazdor
+//
+// REMARKS: This is the code for the GUI. Note that if oyu print the results
+//          to a CSV it will be found in the src folder in a file
+//          called 'STEM_DB_SAVED_RESULT.csv'
+//-------------------------------------------------------------------------------
+
 import javax.swing.*;
 import java.awt.*;
 import java.awt.event.*;
 import java.util.ArrayList;
 import javax.swing.border.TitledBorder;
+
 
 public class GUI{
     private static Database db;
@@ -12,23 +23,24 @@ public class GUI{
 
 
     public static void main(String[] args) {
+        // setup
         db = new Database();
         currentQuery = new int[3];
 
         f = new JFrame("University of Manitoba STEM Database (2019/2020)");//creating instance of JFrame
         f.setDefaultCloseOperation(JFrame.DISPOSE_ON_CLOSE);
-        // shows all the options in the drop-down menus
+
+        // show the welcome page
         startingPoint();
-        // departmentOptions();
+
     }
 
-    // ------------------------------------------------------------------------------------------
-    // Purpose: This is the initial frame the user sees. They select what category they are
-    // interested in.
-    // -------------------------------------------------------------------------------------------
+    // -----------------------------------------------------------------------------------------
+    // startingPoint
+    //
+    // PURPOSE: welcome page.
+    // -----------------------------------------------------------------------------------------
     public static void startingPoint(){
-//        JFrame f = new JFrame("University of Manitoba STEM Database");//creating instance of JFrame
-        // Creating a panel to add buttons
         JPanel p = new JPanel();
         final JLabel welcomeLabel = new JLabel("Welcome to the University of Manitoba STEM database");
         final JLabel ourNames = new JLabel("Made by Cody Wallbridge and Kajal Tomar");
@@ -40,6 +52,7 @@ public class GUI{
 
         p.setLayout(null);
 
+        // set the parameters for all the components
         welcomeLabel.setHorizontalAlignment(JLabel.CENTER);
         welcomeLabel.setSize(800,200);
         welcomeLabel.setFont(new Font("Monospaced", Font.BOLD, 20));
@@ -56,6 +69,7 @@ public class GUI{
         departments.setBounds(200,250,100,30);
         faculties.setBounds(200,275,100,30);
 
+        // add then to the panel
         p.add(welcomeLabel);
         p.add(ourNames);
         p.add(categories);
@@ -64,11 +78,13 @@ public class GUI{
         p.add(departments);
         p.add(faculties);
 
+        // add them to the Jframe
         f.setContentPane(p);
         f.setLayout(null);
         f.setSize(800,800);
         f.setVisible(true);
 
+        // handle what happens a radio button is selected
         departments.addActionListener(new ActionListener() {
             public void actionPerformed(ActionEvent e) {
                 if(departments.isSelected()){
@@ -98,22 +114,18 @@ public class GUI{
 
     }
 
-    // ------------------------------------------------------------------------------------------
-    // Purpose: shows all the query options. Saves the option that is picked by the user and
-    //          calls executeQuery for the given query.
-    // -------------------------------------------------------------------------------------------
+    // -----------------------------------------------------------------------------------------
+    // departmentOptions
+    //
+    // PURPOSE: This page shows all the queries about the departments and asks the user to
+    //          select one.
+    // -----------------------------------------------------------------------------------------
     public static void departmentOptions(){
-
-//        JFrame f = new JFrame("University of Manitoba STEM Database");//creating instance of JFrame
         JButton resultButton = new JButton("select");
         JButton backButton = new JButton("home");
         JPanel p = new JPanel();
         final JComboBox alloptions;
         final JLabel welcomeLabel = new JLabel("Select what you are curious about and we will show you the results!");
-//        final JLabel currentQueryLabel = new JLabel();
-//
-//        currentQueryLabel.setHorizontalAlignment(JLabel.CENTER);
-//        currentQueryLabel.setSize(400,600);
 
         String allQueries[]={"Show all the departments, their contact information and which faculty they are a part of.",
                 "Show all the courses offered by each department.",
@@ -129,40 +141,37 @@ public class GUI{
 
         p.setLayout(null);
 
+        alloptions = new JComboBox(allQueries);
+
+        // set parameters
         welcomeLabel.setHorizontalAlignment(JLabel.CENTER);
         welcomeLabel.setSize(800,200);
         welcomeLabel.setFont(new Font("Monospaced", Font.BOLD, 16));
-
-        alloptions = new JComboBox(allQueries);
 
         alloptions.setBounds(50, 200,600,30);
         resultButton.setBounds(655,200,100,30);
         backButton.setBounds(360,5,80,20);
 
+        // add components to panels
         p.add(welcomeLabel);
         p.add(alloptions);
-        //    f.add(currentQueryLabel);
         p.add(resultButton);
         p.add(backButton);
-        f.setContentPane(p);
 
-//        f.setLayout(null);
-//        f.setSize(800,800);
+        // add the panel to the jFrame
+        f.setContentPane(p);
         f.setVisible(true);
+
+        // handle what happens as the user interacts with the page
 
         alloptions.addActionListener(new ActionListener() {
             public void actionPerformed(ActionEvent e) {
-//                String data = "Current Query: "
-//                        + alloptions.getItemAt(alloptions.getSelectedIndex());
-//                currentQueryLabel.setText(data);
                 currentQuery[1] = alloptions.getSelectedIndex();
             }
         });
 
         resultButton.addActionListener(new ActionListener() {
             public void actionPerformed(ActionEvent e) {
-                System.out.println("Current query: "+currentQuery[1]);
-
                 if(currentQuery[1] == 10){
                     pickDepartment();
                 }
@@ -179,21 +188,18 @@ public class GUI{
         });
     }
 
-    // ------------------------------------------------------------------------------------------
-    // Purpose: shows all the query options. Saves the option that is picked by the user and
-    //          calls executeQuery for the given query.
-    // -------------------------------------------------------------------------------------------
+    // -----------------------------------------------------------------------------------------
+    // facultyOptions
+    //
+    // PURPOSE: This page shows all the queries about the faculties and asks the user to
+    //          select one.
+    // -----------------------------------------------------------------------------------------
     public static void facultyOptions(){
-//        JFrame f = new JFrame("University of Manitoba STEM Database");//creating instance of JFrame
         JButton resultButton = new JButton("select");
         JButton backButton = new JButton("home");
         JPanel p = new JPanel();
         final JComboBox alloptions;
         final JLabel welcomeLabel = new JLabel("Select what you are curious about and we will show you the results!");
-//        final JLabel currentQueryLabel = new JLabel();
-//
-//        currentQueryLabel.setHorizontalAlignment(JLabel.CENTER);
-//        currentQueryLabel.setSize(400,600);
 
         String allQueries[]={"Show all the faculties and any other related information about each faculty.",
                 "Show all the courses offered by each faculty.",
@@ -208,32 +214,30 @@ public class GUI{
 
         p.setLayout(null);
 
+        alloptions = new JComboBox(allQueries);
+
+        // set the parameters for the components
         welcomeLabel.setHorizontalAlignment(JLabel.CENTER);
         welcomeLabel.setSize(800,200);
         welcomeLabel.setFont(new Font("Monospaced", Font.BOLD, 16));
-
-        alloptions = new JComboBox(allQueries);
 
         alloptions.setBounds(50, 200,600,30);
         resultButton.setBounds(655,200,100,30);
         backButton.setBounds(360,5,80,20);
 
+        // add the components to the panel
         p.add(welcomeLabel);
         p.add(alloptions);
-        //    f.add(currentQueryLabel);
         p.add(resultButton);
         p.add(backButton);
-        f.setContentPane(p);
 
-//        f.setLayout(null);
-//        f.setSize(800,800);
+        // set the panel in the JFrame
+        f.setContentPane(p);
         f.setVisible(true);
 
+        // handle user interactivity
         alloptions.addActionListener(new ActionListener() {
             public void actionPerformed(ActionEvent e) {
-//                String data = "Current Query: "
-//                        + alloptions.getItemAt(alloptions.getSelectedIndex());
-//                currentQueryLabel.setText(data);
                 currentQuery[1] = alloptions.getSelectedIndex();
             }
         });
@@ -259,21 +263,18 @@ public class GUI{
         });
     }
 
-    // ------------------------------------------------------------------------------------------
-    // Purpose: shows all the query options. Saves the option that is picked by the user and
-    //          calls executeQuery for the given query.
-    // -------------------------------------------------------------------------------------------
+    // -----------------------------------------------------------------------------------------
+    // courseOptions
+    //
+    // PURPOSE: This page shows all the queries about the courses and asks the user to
+    //          select one.
+    // -----------------------------------------------------------------------------------------
     public static void courseOptions(){
-//        JFrame f = new JFrame("University of Manitoba STEM Database");//creating instance of JFrame
         JButton resultButton = new JButton("select");
         JButton backButton = new JButton("home");
         JPanel p = new JPanel();
         final JComboBox alloptions;
         final JLabel welcomeLabel = new JLabel("Select what you are curious about and we will show you the results!");
-//        final JLabel currentQueryLabel = new JLabel();
-//
-//        currentQueryLabel.setHorizontalAlignment(JLabel.CENTER);
-//        currentQueryLabel.setSize(400,600);
 
         String allQueries[]={"Show all the teachers and related information.",
                 "Show all the available courses offered in 2019. ",
@@ -285,32 +286,30 @@ public class GUI{
 
         p.setLayout(null);
 
+        alloptions = new JComboBox(allQueries);
+
+        // set the parameters for the components
         welcomeLabel.setHorizontalAlignment(JLabel.CENTER);
         welcomeLabel.setSize(800,200);
         welcomeLabel.setFont(new Font("Monospaced", Font.BOLD, 16));
-
-        alloptions = new JComboBox(allQueries);
 
         alloptions.setBounds(50, 200,600,30);
         resultButton.setBounds(655,200,100,30);
         backButton.setBounds(360,5,80,20);
 
+        // add the component to the panel
         p.add(welcomeLabel);
         p.add(alloptions);
-        //    f.add(currentQueryLabel);
         p.add(resultButton);
         p.add(backButton);
-        f.setContentPane(p);
 
-//        f.setLayout(null);
-//        f.setSize(800,800);
+        // set the pane in the jFrame
+        f.setContentPane(p);
         f.setVisible(true);
 
+        // handle user interactivity
         alloptions.addActionListener(new ActionListener() {
             public void actionPerformed(ActionEvent e) {
-//                String data = "Current Query: "
-//                        + alloptions.getItemAt(alloptions.getSelectedIndex());
-//                currentQueryLabel.setText(data);
                 currentQuery[1] = alloptions.getSelectedIndex();
             }
         });
@@ -336,23 +335,20 @@ public class GUI{
     }
 
 
-// ------------------------------------------------------------------------------------------
-// Purpose: shows all the query options. Saves the option that is picked by the user and
-//          calls executeQuery for the given query.
-// -------------------------------------------------------------------------------------------
+    // -----------------------------------------------------------------------------------------
+    // pickDepartments
+    //
+    // PURPOSE: This page shows up when the user gets to pick which department they would like
+    //          answer a certain query for. They get a drop down menu to pick a department from.
+    // -----------------------------------------------------------------------------------------
     public static void pickDepartment(){
-    //        JFrame f = new JFrame("University of Manitoba STEM Database");//creating instance of JFrame
         JButton resultButton = new JButton("select");
         JButton backButton = new JButton("back");
         JPanel p = new JPanel();
         final JComboBox alloptions;
         final JLabel welcomeLabel = new JLabel("Pick the department to show the results for: ");
-    //        final JLabel currentQueryLabel = new JLabel();
-    //
-    //        currentQueryLabel.setHorizontalAlignment(JLabel.CENTER);
-    //        currentQueryLabel.setSize(400,600);
 
-            String allDepartments[]={"Civil Engineering",
+        String allDepartments[]={"Civil Engineering",
             "Electrical and Computer Engineering",
             "Mechanical",
             "Engineering",
@@ -365,38 +361,36 @@ public class GUI{
             "Statistics"};
 
         p.setLayout(null);
+        alloptions = new JComboBox(allDepartments);
 
+        // set up parameters for the components
         welcomeLabel.setHorizontalAlignment(JLabel.CENTER);
         welcomeLabel.setSize(800,200);
         welcomeLabel.setFont(new Font("Monospaced", Font.BOLD, 16));
-
-        alloptions = new JComboBox(allDepartments);
 
         alloptions.setBounds(50, 200,600,30);
         resultButton.setBounds(655,200,100,30);
         backButton.setBounds(360,5,80,20);
 
+        // add all the components to the panel
         p.add(welcomeLabel);
         p.add(alloptions);
-        //    f.add(currentQueryLabel);
         p.add(resultButton);
         p.add(backButton);
 
+        // add the panel to the Jframe
         f.setContentPane(p);
         f.setVisible(true);
 
+        // handle user interactivity
         alloptions.addActionListener(new ActionListener() {
             public void actionPerformed(ActionEvent e) {
-    //                String data = "Current Query: "
-    //                        + alloptions.getItemAt(alloptions.getSelectedIndex());
-    //                currentQueryLabel.setText(data);
                 currentQuery[2] = alloptions.getSelectedIndex();
             }
         });
 
         resultButton.addActionListener(new ActionListener() {
             public void actionPerformed(ActionEvent e) {
-                System.out.println(currentQuery[2]);
                 displayResults();
             }
         });
@@ -421,58 +415,54 @@ public class GUI{
         });
     }
 
-    // ------------------------------------------------------------------------------------------
-// Purpose: shows all the query options. Saves the option that is picked by the user and
-//          calls executeQuery for the given query.
-// -------------------------------------------------------------------------------------------
+    // -----------------------------------------------------------------------------------------
+    // pickFaculty
+    //
+    // PURPOSE: This page shows up when the user gets to pick which faculty they would like
+    //          answer a certain query for. They get a drop down menu to pick a faculty.
+    // -----------------------------------------------------------------------------------------
     public static void pickFaculty(){
-        //        JFrame f = new JFrame("University of Manitoba STEM Database");//creating instance of JFrame
         JButton resultButton = new JButton("select");
         JButton backButton = new JButton("back");
         JPanel p = new JPanel();
         final JComboBox alloptions;
         final JLabel welcomeLabel = new JLabel("Pick the faculty to show the results for: ");
-        //        final JLabel currentQueryLabel = new JLabel();
-        //
-        //        currentQueryLabel.setHorizontalAlignment(JLabel.CENTER);
-        //        currentQueryLabel.setSize(400,600);
 
-        String allDepartments[]={"Engineering",
+        String allFaculties[]={"Engineering",
                 "Science"};
 
         p.setLayout(null);
+        alloptions = new JComboBox(allFaculties);
+
+        // set up the parameters for the components
 
         welcomeLabel.setHorizontalAlignment(JLabel.CENTER);
         welcomeLabel.setSize(800,200);
         welcomeLabel.setFont(new Font("Monospaced", Font.BOLD, 16));
 
-        alloptions = new JComboBox(allDepartments);
-
         alloptions.setBounds(50, 200,600,30);
         resultButton.setBounds(655,200,100,30);
         backButton.setBounds(360,5,80,20);
 
+        // add all the components to the panel
         p.add(welcomeLabel);
         p.add(alloptions);
-        //    f.add(currentQueryLabel);
         p.add(resultButton);
         p.add(backButton);
 
+        // set the panel to be the Jframe
         f.setContentPane(p);
         f.setVisible(true);
 
+        // handle user interactivity
         alloptions.addActionListener(new ActionListener() {
             public void actionPerformed(ActionEvent e) {
-                //                String data = "Current Query: "
-                //                        + alloptions.getItemAt(alloptions.getSelectedIndex());
-                //                currentQueryLabel.setText(data);
                 currentQuery[2] = alloptions.getSelectedIndex();
             }
         });
 
         resultButton.addActionListener(new ActionListener() {
             public void actionPerformed(ActionEvent e) {
-                System.out.println(currentQuery[2]);
                 displayResults();
             }
         });
@@ -497,54 +487,60 @@ public class GUI{
         });
     }
 
+    // -----------------------------------------------------------------------------------------
+    // displayResults
+    //
+    // PURPOSE: This shows the results of the query in table. Also provides a way to print the
+    //          results to a CSV.
+    // -----------------------------------------------------------------------------------------
     public static void displayResults(){
-        JButton backButton = new JButton("home");
+        JButton homeButton = new JButton("home");
         JButton printButton = new JButton("Save the results to CSV file");
+        JButton backButton = new JButton("back");
         final JLabel label = new JLabel("RESULTS");
-    //    final JLabel label = new JLabel("Results");
         JPanel p = new JPanel();
         JScrollPane sp;
         JTable table;
-        ArrayList<String[]> returnedList = db.executeQuery(currentQuery);
-        String[] headers = db.getHeaders(currentQuery);
 
+        ArrayList<String[]> returnedList = db.executeQuery(currentQuery); // get the result of the current query
+        String[] headers = db.getHeaders(currentQuery); // get the corresponding headers
+
+        // create an array that is equal to the size of the retured array list
         int rowAmount = returnedList.size();
         int columnAmount = (returnedList.get(0)).length;
         String[][] data = new String[rowAmount][columnAmount];
 
-        System.out.println("Rows:"+rowAmount+", Columns: "+columnAmount);
-
-        p.setLayout(new BoxLayout(p, BoxLayout.Y_AXIS));
-
-//        label.setHorizontalAlignment(JLabel.CENTER);
-//        label.setSize(800,200);
-//        label.setFont(new Font("Monospaced", Font.BOLD, 14));
-        backButton.setBounds(0,5,800,16);
-
+        // to convert the array list into an array
+        // because that's what JTable accepts
         for(int i = 0; i < rowAmount; i++){
             for(int j = 0; j < columnAmount; j++){
                 data[i][j] = returnedList.get(i)[j];
-               // System.out.print(data[i][j]+", ");
             }
-          //  System.out.println();
         }
 
-       p.setBorder(BorderFactory.createTitledBorder( BorderFactory.createEtchedBorder(), "UofM STEM Database", TitledBorder.CENTER, TitledBorder.TOP));
+        // set up parameters for the panel
+        p.setLayout(new BoxLayout(p, BoxLayout.Y_AXIS));
+        p.setBorder(BorderFactory.createTitledBorder( BorderFactory.createEtchedBorder(), "UofM STEM Database", TitledBorder.CENTER, TitledBorder.TOP));
 
+        // create scrollable table
         table = new JTable(data, headers);
-       // table.setBounds(50, 50, 500, 500);
         sp = new JScrollPane(table);
-      //  sp.setBounds(5, 500, 800, 800);
 
-        backButton.setAlignmentX(Component.CENTER_ALIGNMENT);
+        // set up the parameters for the buttons and labels
+        homeButton.setBounds(0,5,400,16);
+        backButton.setBounds(400,5,400,16);
+
+        homeButton.setAlignmentX(Component.CENTER_ALIGNMENT);
         printButton.setAlignmentX(Component.CENTER_ALIGNMENT);
+        backButton.setAlignmentX(Component.CENTER_ALIGNMENT);
 
         label.setAlignmentX(JLabel.CENTER_ALIGNMENT);
         label.setFont(new Font("Monospaced", Font.BOLD, 20));
 
-    //    p.add(label);
-        p.add(Box.createRigidArea(new Dimension(0,3)));
+        // add everything to the panel
         p.add(backButton);
+        p.add(Box.createRigidArea(new Dimension(0,3))); // creates an invisible box (for spacing)
+        p.add(homeButton);
         p.add(Box.createRigidArea(new Dimension(0,10)));
         p.add(label);
         p.add(Box.createRigidArea(new Dimension(0,5)));
@@ -552,11 +548,31 @@ public class GUI{
         p.add(Box.createRigidArea(new Dimension(0,5)));
         p.add(printButton);
 
-
+        // setup JFrame to show panel
         f.setContentPane(p);
         f.setVisible(true);
 
+        // handle user interactivity
         backButton.addActionListener(new ActionListener() {
+            public void actionPerformed(ActionEvent e) {
+                currentQuery[1] = 0;
+                currentQuery[2] = 0;
+                if(currentQuery[0] == 0){
+                    departmentOptions();
+                }
+                else if(currentQuery[0] == 1){
+                    facultyOptions();
+                }
+                else if(currentQuery[0] == 2){
+                    courseOptions();
+                }
+                else {
+                    startingPoint();
+                }
+            }
+        });
+
+        homeButton.addActionListener(new ActionListener() {
             public void actionPerformed(ActionEvent e) {
                 currentQuery[0] = 0;
                 currentQuery[1] = 0;

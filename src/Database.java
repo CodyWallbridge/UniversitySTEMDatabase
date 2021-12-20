@@ -1,5 +1,10 @@
-//backend for database for comp3380 project
-//written Dec 2021
+//------------------------------------------------------------------------------
+// NAMES: Cody Wallbridge, Kajal Tomar
+// COURSE: COMP3380, SECTION: A02
+// INSTRUCTOR: Adam Pazdor
+//
+// REMARKS: This is the code for the Database.
+//-------------------------------------------------------------------------------
 
 import java.io.BufferedReader;
 import java.io.FileReader;

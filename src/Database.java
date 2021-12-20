@@ -14,8 +14,7 @@ import java.sql.Statement;
 import java.text.DecimalFormat;
 import java.util.ArrayList;
 
-import static java.sql.Types.REAL;
-import static java.sql.Types.VARCHAR;
+import static java.sql.Types.*;
 
 public class Database {
     private Connection connection;
@@ -47,10 +46,15 @@ public class Database {
             for (String[] stringArray : finalTable) {
                 int count = 0;
                 for (String string : stringArray) {
-                    if(count > 0){
+                    if (count > 0) {
                         myWriter.write(",");
                     }
-                    myWriter.write(string);
+                    if ( string == null) {
+                        myWriter.write("");
+                    }
+                    else{
+                        myWriter.write(string);
+                    }
                     count++;
                 }
                 myWriter.write("\n");
@@ -179,17 +183,17 @@ public class Database {
             } else if (headerNum[1] == 6) {
                 result = new String[]{"Department", "Number Of Instructors"};
             } else if (headerNum[1] == 7) {
-                result = new String[]{"Department", "Total Paid"};
+                result = new String[]{"Department", "Total Paid (CDN $)"};
             } else if (headerNum[1] == 8) {
-                result = new String[]{"Department", "Total Paid"};
+                result = new String[]{"Department", "Total Paid (CDN $)"};
             } else if (headerNum[1] == 9) {
-                result = new String[]{"Department", "Average Pay"};
+                result = new String[]{"Department", "Average Pay (CDN $)"};
             } else if (headerNum[1] == 10) {
-                result = new String[]{"Department", "Total Paid"};
+                result = new String[]{"Department", "Total Paid (CDN $)"};
             }
         } else if (headerNum[0] == 1) {
             if (headerNum[1] == 0) {
-                result = new String[]{"Faculty", "Number of Full-time Students Enrolled", "Office", "Phone Number", "Domestic Student Tuition", "International Student Tuition", "Average Grade for Undergrad Students", "Number of Grades Given to Undergrad Students", "Percentage of F's for Undergrad Students", "Percentage of A's for Undergrad Students", "Average Grade for Graduate Students", "Number of Grades Given to Graduate Students", "Percentage of F's for Graduate Students", "Percentage of A's for Graduate Students"};
+                result = new String[]{"Faculty", "Number of Full-time Students Enrolled", "Office", "Phone Number", "Domestic Student Tuition (CDN $)", "International Student Tuition (CDN $)", "Average Grade for Undergrad Students", "Number of Grades Given to Undergrad Students", "Percentage of F's for Undergrad Students", "Percentage of A's for Undergrad Students", "Average Grade for Graduate Students", "Number of Grades Given to Graduate Students", "Percentage of F's for Graduate Students", "Percentage of A's for Graduate Students"};
             } else if (headerNum[1] == 1) {
                 result = new String[]{"CRN", "Faculty"};
             } else if (headerNum[1] == 2) {
@@ -199,19 +203,19 @@ public class Database {
             } else if (headerNum[1] == 4) {
                 result = new String[]{"Faculty", "Number of F's for Undergrad Students", "Number of F's for Graduate Students"};
             } else if (headerNum[1] == 5) {
-                result = new String[]{"Faculty", "Office", "Phone Number", "International Student Tuition"};
+                result = new String[]{"Faculty", "Office", "Phone Number", "International Student Tuition (CDN $)"};
             } else if (headerNum[1] == 6) {
-                result = new String[]{"Faculty", "Office", "Phone Number", "Domestic Student Tuition"};
+                result = new String[]{"Faculty", "Office", "Phone Number", "Domestic Student Tuition (CDN $)"};
             } else if (headerNum[1] == 7) {
                 result = new String[]{"Faculty", "Office", "Phone Number", "Average Grade for Undergrad Students"};
             } else if (headerNum[1] == 8) {
                 result = new String[]{"Faculty", "Office", "Phone Number", "Average Grade for Graduate Students"};
             } else if (headerNum[1] == 9) {
-                result = new String[]{"Faculty", "Total Paid"};
+                result = new String[]{"Faculty", "Total Paid (CDN $)"};
             }
         } else if (headerNum[0] == 2) {
             if (headerNum[1] == 0) {
-                result = new String[]{"First Name", "Last Name", "Course Name", "Compensation Amount", "Phone Number", "Office"};
+                result = new String[]{"First Name", "Last Name", "Course Name", "Compensation Amount (CDN $)", "Phone Number", "Office"};
             } else if (headerNum[1] == 1) {
                 result = new String[]{"CRN", "Course Name", "section", "ID", "First Name", "Last Name", "Term of Offering"};
             } else if (headerNum[1] == 2) {
@@ -379,30 +383,27 @@ public class Database {
             department = "Electrical and Computer Engineering";
         }
         else if(dep == 2){
-            department = "Engineering - Preliminary Year";
-        }
-        else if(dep == 3){
             department = "Mechanical";
         }
-        else if(dep == 4){
+        else if(dep == 3){
             department = "Engineering";
         }
-        else if(dep == 5){
+        else if(dep == 4){
             department = "Biological Sciences";
         }
-        else if(dep == 6){
+        else if(dep == 5){
             department = "Chemistry";
         }
-        else if(dep == 7){
+        else if(dep == 6){
             department = "Computer Science";
         }
-        else if(dep == 8){
+        else if(dep == 7){
             department = "Mathematics";
         }
-        else if(dep == 9){
+        else if(dep == 8){
             department = "Microbiology";
         }
-        else if(dep == 10){
+        else if(dep == 9){
             department = "Physics and Astronomy";
         }
         else{
@@ -526,30 +527,27 @@ public class Database {
                 department = "Electrical and Computer Engineering";
             }
             else if(dep == 2){
-                department = "Engineering - Preliminary Year";
-            }
-            else if(dep == 3){
                 department = "Mechanical";
             }
-            else if(dep == 4){
+            else if(dep == 3){
                 department = "Engineering";
             }
-            else if(dep == 5){
+            else if(dep == 4){
                 department = "Biological Sciences";
             }
-            else if(dep == 6){
+            else if(dep == 5){
                 department = "Chemistry";
             }
-            else if(dep == 7){
+            else if(dep == 6){
                 department = "Computer Science";
             }
-            else if(dep == 8){
+            else if(dep == 7){
                 department = "Mathematics";
             }
-            else if(dep == 9){
+            else if(dep == 8){
                 department = "Microbiology";
             }
-            else if(dep == 10){
+            else if(dep == 9){
                 department = "Physics and Astronomy";
             }
             else{
@@ -585,30 +583,27 @@ public class Database {
                 department = "Electrical and Computer Engineering";
             }
             else if(dep == 2){
-                department = "Engineering - Preliminary Year";
-            }
-            else if(dep == 3){
                 department = "Mechanical";
             }
-            else if(dep == 4){
+            else if(dep == 3){
                 department = "Engineering";
             }
-            else if(dep == 5){
+            else if(dep == 4){
                 department = "Biological Sciences";
             }
-            else if(dep == 6){
+            else if(dep == 5){
                 department = "Chemistry";
             }
-            else if(dep == 7){
+            else if(dep == 6){
                 department = "Computer Science";
             }
-            else if(dep == 8){
+            else if(dep == 7){
                 department = "Mathematics";
             }
-            else if(dep == 9){
+            else if(dep == 8){
                 department = "Microbiology";
             }
-            else if(dep == 10){
+            else if(dep == 9){
                 department = "Physics and Astronomy";
             }
             else{
@@ -786,7 +781,7 @@ public class Database {
         ArrayList<String[]> resultList = null;
         try {
             resultList = new ArrayList<String[]>();
-            String instruction = "select cTitle, sum(capacity-actualRegistered) as emptySeats from CourseStudentInfo\ngroup by cTitle\norder by emptySeats, cTitle\nlimit 1\n";
+            String instruction = "select cTitle, sum(capacity-actualRegistered) as emptySeats from CourseStudentInfo\ngroup by cTitle\norder by emptySeats desc, cTitle\nlimit 1\n";
             Statement statemnt = this.connection.createStatement();
             ResultSet result = statemnt.executeQuery(instruction);
 

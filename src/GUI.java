@@ -354,7 +354,6 @@ public class GUI{
 
             String allDepartments[]={"Civil Engineering",
             "Electrical and Computer Engineering",
-            "Engineering - Preliminary Year",
             "Mechanical",
             "Engineering",
             "Biological Sciences",
@@ -568,7 +567,7 @@ public class GUI{
 
         printButton.addActionListener(new ActionListener() {
             public void actionPerformed(ActionEvent e) {
-                db.printOutputCSV(headers, returnedList, "STEM_DB_SAVED_RESULT");
+                db.printOutputCSV(headers, returnedList, "STEM_DB_SAVED_RESULT.csv");
             }
         });
     }

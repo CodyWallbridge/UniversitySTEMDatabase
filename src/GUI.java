@@ -103,6 +103,7 @@ public class GUI{
     //          calls executeQuery for the given query.
     // -------------------------------------------------------------------------------------------
     public static void departmentOptions(){
+
 //        JFrame f = new JFrame("University of Manitoba STEM Database");//creating instance of JFrame
         JButton resultButton = new JButton("select");
         JButton backButton = new JButton("home");
@@ -160,7 +161,7 @@ public class GUI{
 
         resultButton.addActionListener(new ActionListener() {
             public void actionPerformed(ActionEvent e) {
-                System.out.println(currentQuery[1]);
+                System.out.println("Current query: "+currentQuery[1]);
 
                 if(currentQuery[1] == 10){
                     pickDepartment();
@@ -200,9 +201,9 @@ public class GUI{
                 "Which faculty gave the most As?",
                 "Which faculty gave the most Fs?",
                 "Which faculty has the lowest tuition for international students  and how do I contact them?",
-                "Which faculty has the highest average grade for international students? How do I contact them?",
                 "Which faculty has the lowest tuition for domestic students and how do I contact them? ",
-                "Which faculty has the highest average grade for domestic students? How do I contact them?",
+                "Which faculty has the highest average grade for undergraduate students? How do I contact them? ",
+                "Which faculty has the highest average grade for graduate students? How do I contact them?",
                 "What is the total compensation awarded by X faculty?"};
 
         p.setLayout(null);
@@ -241,12 +242,18 @@ public class GUI{
             public void actionPerformed(ActionEvent e) {
                 System.out.println(currentQuery[1]);
                 // pick department if the currentQuery[1]
-                displayResults();
+                if(currentQuery[1] == 9){
+                    pickFaculty();
+                }
+                else {
+                    displayResults();
+                }
             }
         });
 
         backButton.addActionListener(new ActionListener() {
             public void actionPerformed(ActionEvent e) {
+
                 startingPoint();
             }
         });
@@ -397,6 +404,84 @@ public class GUI{
 
         backButton.addActionListener(new ActionListener() {
             public void actionPerformed(ActionEvent e) {
+                currentQuery[1] = 0;
+                currentQuery[2] = 0;
+                if(currentQuery[0] == 0){
+                    departmentOptions();
+                }
+                else if(currentQuery[0] == 1){
+                    facultyOptions();
+                }
+                else if(currentQuery[0] == 2){
+                    courseOptions();
+                }
+                else {
+                    startingPoint();
+                }
+            }
+        });
+    }
+
+    // ------------------------------------------------------------------------------------------
+// Purpose: shows all the query options. Saves the option that is picked by the user and
+//          calls executeQuery for the given query.
+// -------------------------------------------------------------------------------------------
+    public static void pickFaculty(){
+        //        JFrame f = new JFrame("University of Manitoba STEM Database");//creating instance of JFrame
+        JButton resultButton = new JButton("select");
+        JButton backButton = new JButton("back");
+        JPanel p = new JPanel();
+        final JComboBox alloptions;
+        final JLabel welcomeLabel = new JLabel("Pick the faculty to show the results for: ");
+        //        final JLabel currentQueryLabel = new JLabel();
+        //
+        //        currentQueryLabel.setHorizontalAlignment(JLabel.CENTER);
+        //        currentQueryLabel.setSize(400,600);
+
+        String allDepartments[]={"Engineering",
+                "Science"};
+
+        p.setLayout(null);
+
+        welcomeLabel.setHorizontalAlignment(JLabel.CENTER);
+        welcomeLabel.setSize(800,200);
+        welcomeLabel.setFont(new Font("Monospaced", Font.BOLD, 16));
+
+        alloptions = new JComboBox(allDepartments);
+
+        alloptions.setBounds(50, 200,600,30);
+        resultButton.setBounds(655,200,100,30);
+        backButton.setBounds(360,5,80,20);
+
+        p.add(welcomeLabel);
+        p.add(alloptions);
+        //    f.add(currentQueryLabel);
+        p.add(resultButton);
+        p.add(backButton);
+
+        f.setContentPane(p);
+        f.setVisible(true);
+
+        alloptions.addActionListener(new ActionListener() {
+            public void actionPerformed(ActionEvent e) {
+                //                String data = "Current Query: "
+                //                        + alloptions.getItemAt(alloptions.getSelectedIndex());
+                //                currentQueryLabel.setText(data);
+                currentQuery[2] = alloptions.getSelectedIndex();
+            }
+        });
+
+        resultButton.addActionListener(new ActionListener() {
+            public void actionPerformed(ActionEvent e) {
+                System.out.println(currentQuery[2]);
+                displayResults();
+            }
+        });
+
+        backButton.addActionListener(new ActionListener() {
+            public void actionPerformed(ActionEvent e) {
+                currentQuery[1] = 0;
+                currentQuery[2] = 0;
                 if(currentQuery[0] == 0){
                     departmentOptions();
                 }
@@ -415,6 +500,7 @@ public class GUI{
 
     public static void displayResults(){
         JButton backButton = new JButton("home");
+        JButton printButton = new JButton("Save the results to CSV file");
         final JLabel label = new JLabel("RESULTS");
     //    final JLabel label = new JLabel("Results");
         JPanel p = new JPanel();
@@ -452,6 +538,7 @@ public class GUI{
       //  sp.setBounds(5, 500, 800, 800);
 
         backButton.setAlignmentX(Component.CENTER_ALIGNMENT);
+        printButton.setAlignmentX(Component.CENTER_ALIGNMENT);
 
         label.setAlignmentX(JLabel.CENTER_ALIGNMENT);
         label.setFont(new Font("Monospaced", Font.BOLD, 20));
@@ -463,7 +550,8 @@ public class GUI{
         p.add(label);
         p.add(Box.createRigidArea(new Dimension(0,5)));
         p.add(sp);
-
+        p.add(Box.createRigidArea(new Dimension(0,5)));
+        p.add(printButton);
 
 
         f.setContentPane(p);
@@ -471,7 +559,16 @@ public class GUI{
 
         backButton.addActionListener(new ActionListener() {
             public void actionPerformed(ActionEvent e) {
+                currentQuery[0] = 0;
+                currentQuery[1] = 0;
+                currentQuery[2] = 0;
                 startingPoint();
+            }
+        });
+
+        printButton.addActionListener(new ActionListener() {
+            public void actionPerformed(ActionEvent e) {
+                db.printOutputCSV(headers, returnedList, "STEM_DB_SAVED_RESULT");
             }
         });
     }
